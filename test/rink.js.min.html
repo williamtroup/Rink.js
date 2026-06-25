@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Rink.js - Minimized</title>
+        <link rel="stylesheet" href="css/styles.css">
+        <script src="../dist/rink.min.js"></script>
+        <script src="js/scripts.js"></script>
+    </head>
+
+    <body data-random-attribute="attribute-value" name="body" id="body" style="font-family: default;">
+        <div class="header">
+            <img src="images/image.png" class="logo" />
+            <h1 id="header">Rink.js - Minimized</h1>
+            <p>This is a basic example of how to use <b>Rink.js</b>.</p>
+        </div>
+
+        <div class="contents">
+            <textarea id="json"></textarea>
+        </div>
+
+        <div class="contents">
+            <h2>JSON - GET:</h2>
+            <button class="btn btn-primary" onclick="getJSONData();">Get</button>
+            <br>
+
+            <div class="ms-3 mt-1">
+                <input type="checkbox" id="includeAttributes" name="includeAttributes" checked="checked">
+                <label for="includeAttributes">Include Attributes</label>
+                <br>
+
+                <input type="checkbox" id="includeDataAttributes" name="includeDataAttributes" checked="checked">
+                <label for="includeDataAttributes">Include Data Attributes</label>
+                <br>
+    
+                <input type="checkbox" id="includeCssProperties" name="includeCssProperties">
+                <label for="includeCssProperties">Include CSS Properties</label>
+                <br>
+    
+                <input type="checkbox" id="includeText" name="includeText" checked="checked">
+                <label for="includeText">Include Text</label>
+                <br>
+    
+                <input type="checkbox" id="includeChildren" name="includeChildren" checked="checked">
+                <label for="includeChildren">Include Children</label>
+                <br>
+
+                <input type="checkbox" id="includeImagesAsBase64" name="includeImagesAsBase64">
+                <label for="includeImagesAsBase64">Include Images As Base 64</label>
+                <br>
+    
+                <input type="checkbox" id="friendlyFormat" name="friendlyFormat" checked="checked">
+                <label for="friendlyFormat">Friendly Format</label>
+                <br>
+
+                <input type="checkbox" id="generateUniqueMissingIds" name="generateUniqueMissingIds">
+                <label for="generateUniqueMissingIds">Generate Unique Missing Ids</label>
+                <br>
+
+                <input type="checkbox" id="generateUniqueMissingNames" name="generateUniqueMissingNames">
+                <label for="generateUniqueMissingNames">Generate Unique Missing Names</label>
+                <br>
+
+                <label for="indentSpaces">Indent Spaces: </label>
+                <br>
+                <input type="number" id="indentSpaces" value="2">
+                <br>
+
+                <label for="ignoreNodeTypes">Ignore Node Types: </label>
+                <br>
+                <input type="text" id="ignoreNodeTypes" value="">
+                <br>
+
+                <label for="ignoreCssProperties">Ignore CSS Properties: </label>
+                <br>
+                <input type="text" id="ignoreCssProperties" value="">
+                <br>
+
+                <label for="ignoreAttributes">Ignore Attributes: </label>
+                <br>
+                <input type="text" id="ignoreAttributes" value="">
+                <br>
+
+                <label for="ignoreElementIds">Ignore Element Ids: </label>
+                <br>
+                <input type="text" id="ignoreElementIds" value="">
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,7 @@
+/.vs
+/.vscode
+.DS_Store
+*.nupkg
+/.idea
+/build
+/node_modules

@@ -1,0 +1,55 @@
+{
+  "name": "rink.js",
+  "title": "Rink.js",
+  "description": "A JavaScript library for dynamically creating responsive link destinations in HTML.",
+  "version": "1.0.0",
+  "homepage": "https://www.william-troup.com/rink-js/",
+  "author": {
+    "name": "Bunoon"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/williamtroup/Rink.js"
+  },
+  "keywords": [
+    "typescript",
+    "javascript",
+    "css",
+    "html5",
+    "rink.js",
+    "json",
+    "html",
+    "convert",
+    "conversion",
+    "converter",
+    "template",
+    "render",
+    "text",
+    "formatting",
+    "binding"
+  ],
+  "bugs": {
+    "url": "https://github.com/williamtroup/Rink.js/issues"
+  },
+  "main": "dist/rink.js",
+  "types": "dist/rink.d.ts",
+  "scripts": {
+    "build-all-verify": "npx eslint '**/*.ts' && npm run build-all",
+    "build-all": "npm run build && npm run build-minimized",
+    "build": "tsup --config tsup.build.config.ts && tsup --config tsup.build.esm.config.ts",
+    "build-minimized": "tsup --config tsup.build.min.config.ts",
+    "build-typescript": "tsup --config tsup.build.config.ts",
+    "build-typescript-esm": "tsup --config tsup.build.esm.config.ts",
+    "build-typescript-minimized": "tsup --config tsup.build.min.config.ts"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.15.10",
+    "sass": "^1.97.3",
+    "terser": "^5.46.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "@typescript-eslint/eslint-plugin": "^8.53.1",
+    "@typescript-eslint/parser": "^8.53.1"
+  }
+}

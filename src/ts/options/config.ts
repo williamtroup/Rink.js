@@ -1,0 +1,40 @@
+/**
+ * Rink.js
+ * 
+ * A JavaScript library for dynamically creating responsive link destinations in HTML.
+ * 
+ * @file        config.ts
+ * @version     v1.0.0
+ * @author      Bunoon
+ * @license     MIT License
+ * @copyright   Bunoon 2026
+ */
+
+
+import { type ConfigurationOptions } from "../type";
+import { Default } from "../data/default";
+
+
+export namespace Configuration {
+    export namespace Options {
+        export function get( newConfigurationOptions: unknown = null ) : ConfigurationOptions {
+            const configurationOptions: ConfigurationOptions = Default.getObject( newConfigurationOptions, {} as ConfigurationOptions );
+            configurationOptions.safeMode = Default.getBoolean( configurationOptions.safeMode, true );
+            configurationOptions.domElementTypes = Default.getStringOrArray( configurationOptions.domElementTypes, [ "*" ] );
+            configurationOptions.formattingNodeTypes = Default.getStringOrArray( configurationOptions.formattingNodeTypes, [
+                "b",
+                "strong",
+                "i",
+                "em",
+                "mark",
+                "small",
+                "del",
+                "ins",
+                "sub",
+                "sup"
+            ] );
+
+            return configurationOptions;
+        }
+    }
+}

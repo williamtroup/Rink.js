@@ -1,0 +1,77 @@
+# Building Rink.js
+
+Before getting started with Rink.js, please read through the following instructions:
+
+
+## Step 1: Install Packages:
+
+Install the packages using the following NPM commands:
+
+### 1. Install TypeScript:
+
+```markdown
+npm install -g typescript
+```
+
+### 2. Install packages:
+
+```markdown
+npm install
+```
+
+
+## Step 2: Build Project:
+
+### 1. Full Build:
+
+To build the TypeScript, run the following command:
+
+```markdown
+npm run build-typescript
+```
+
+To build the SASS, run the following command:
+
+```markdown
+npm run build-sass
+```
+
+To build the everything, run the following command:
+
+```markdown
+npm run build
+```
+
+To build everything and verify via ESLint, run the following command:
+
+```markdown
+npm run build-all-verify
+```
+
+### 2. Minimized Build:
+
+To build the TypeScript, run the following command:
+
+```markdown
+npm run build-minimized-typescript
+```
+
+To build the SASS, run the following command:
+
+```markdown
+npm run build-minimized-sass
+```
+
+To build the everything, run the following command:
+
+```markdown
+npm run build-minimized
+```
+
+### 3. ESM Build:
+
+To build the TypeScript, run the following command:
+
+```markdown
+npm run build-typescript-esm
+```
