@@ -150,7 +150,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         _screenWidthChangeTimer = setTimeout( () => updateAnchorTags() , _configurationOptions.responsiveDelay! );
     }
 
-    function updateAnchorTags() {
+    function updateAnchorTags() : void {
         updateAnchorTagsNotProcessed( updateAnchorTagTargets() );
     }
 
