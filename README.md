@@ -75,7 +75,12 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 ### 3. Getting/Rendering JSON:
 
 ```markdown
-<a href="https://www.william-troup.com/" data-rink-js-md="_blank" target="_self"></a>
+<a href="https://www.william-troup.com/" data-rink-js-sm="_blank" target="_self">Test Link SM</a>
+<a href="https://www.william-troup.com/" data-rink-js-md="_blank" target="_self">Test Link MD</a>
+<a href="https://www.william-troup.com/" data-rink-js-lg="_blank" target="_self">Test Link LG</a>
+<a href="https://www.william-troup.com/" data-rink-js-xl="_blank" target="_self">Test Link XL</a>
+<a href="https://www.william-troup.com/" data-rink-js-xxl="_blank" target="_self">Test Link XXL</a>
+<a href="https://www.william-troup.com/" data-rink-js-800="_blank" target="_self">Test Link (800)</a>
 ```
 
 <br>
