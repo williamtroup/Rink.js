@@ -12,5 +12,5 @@
 
 
 export namespace Constant {
-    export const JHSON_JS_ATTRIBUTE_NAME: string = "data-rink-js";
+    export const RINK_JS_ATTRIBUTE_NAME: string = "data-rink-js";
 }
