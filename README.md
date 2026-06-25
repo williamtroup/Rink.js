@@ -20,14 +20,6 @@ Rink.js
 - 😏 Zero-dependencies and extremely lightweight!
 - 🦾 Written in TypeScript, allowing greater support for React, Angular, and other libraries!
 - 💻 Full API available via public functions.
-- 🌈 Full support for Attributes, CSS style properties, and formatted text!
-- ⭐ Write your JSON directly to any DOM element for rendering, or get the base element for use elsewhere.
-- 📋 Copy the layout for an entire page without additional files!
-- 🔍 Apply additional filters to exclude specific node types, CSS styles, attributes, etc.
-- 🔠 Data templating for text (with defaults support).
-- 🎥 Write CSS directly back to the head for each element!
-- 💧 Bind JSON directly to DOM elements!
-- 📷 Include and write images as Base 64 URLs.
 <br />
 <br />
 
@@ -60,7 +52,6 @@ Or, you can also use the following CDN links:
 
 ```markdown
 https://cdn.jsdelivr.net/gh/williamtroup/Rink.js@1.0.0/dist/rink.min.js
-https://cdn.jsdelivr.net/gh/williamtroup/Rink.js@1.0.0/dist/rink.export.js
 ```
 <br>
 <br>
@@ -93,90 +84,13 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 ### 3. Getting/Rendering JSON:
 
 ```markdown
-<div id="header" class="header">
-    <h1>Rink.js</h1>
-    <p>This is a {{template_type | basic}} example of how to use <b>Rink.js</b> ... with template data {{template_data}}.</p>
-</div>
-
-<script>
-    var header = document.getElementById( "header" );
-
-    var json = $rink
-        .json()
-        .includeAttributes( true )
-        .includeDataAttributes( true )
-        .includeCssProperties( true )
-        .includeText( true )
-        .includeChildren( true )
-        .includeImagesAsBase64( false )
-        .friendlyFormat( true )
-        .indentSpaces( 2 )
-        .ignoreNodeTypes( "q" )
-        .ignoreNodeCondition( null )
-        .ignoreCssProperties( "padding" )
-        .ignoreAttributes( "data-your-attribute" )
-        .ignoreElementIds( "your-element-id" )
-        .generateUniqueMissingIds( false )
-        .generateUniqueMissingNames( false )
-        .propertyReplacer( null )
-        .get( header );
-
-    $rink
-        .html()
-        .json( json )
-        .templateData( { "{{template_data}}": "this template data" } )
-        .removeOriginalAttributes( true )
-        .removeOriginalDataAttributes( true )
-        .clearOriginalHTML( true )
-        .addCssToHead( false )
-        .clearCssFromHead( false )
-        .logTemplateDataWarnings( false )
-        .addAttributes( true )
-        .addDataAttributes( true )
-        .addCssProperties( true )
-        .addText( true )
-        .addChildren( true )
-        .insertBefore( false )
-        .write( header );
-
-    var element = $rink
-        .html()
-        .json( json )
-        .templateData( { "{{template_data}}": "this template data" } )
-        .removeOriginalAttributes( true )
-        .removeOriginalDataAttributes( true )
-        .clearOriginalHTML( true )
-        .addCssToHead( false )
-        .clearCssFromHead( false )
-        .logTemplateDataWarnings( false )
-        .addAttributes( true )
-        .addDataAttributes( true )
-        .addCssProperties( true )
-        .addText( true )
-        .addChildren( true )
-        .get();
-</script>
+<a href="https://www.william-troup.com/" data-rink-js-md="_blank" target="_self"></a>
 ```
 
 <br>
 
 
-### 4. DOM Element Binding (for writing JSON as HTML):
-
-```markdown
-<div data-rink-js="{ 'json': 'json string' }">
-    Your HTML.
-</div>
-```
-
-To see a list of all the available binding options you can use for "data-rink-js", click [here](https://www.william-troup.com/rink-js/documentation/binding-options.html).
-
-To see a list of all the available custom triggers you can use for "data-rink-js", click [here](https://www.william-troup.com/rink-js/documentation/binding-options-custom-triggers.html).
-
-<br>
-
-
-### 5. Finishing Up:
+### 4. Finishing Up:
 
 That's it! Nice and simple. Please refer to the code if you need more help (fully documented).
 <br>
