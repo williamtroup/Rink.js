@@ -131,7 +131,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         _screenWidthAnchors[ screenSize.toString() ].push( {
             anchorTag: anchorElement,
             newTarget: newTarget,
-            originalTarget: anchorElement.getAttribute( "target" )!
+            originalTarget: anchorElement.getAttribute( "target" )!,
         } as AnchorOptions );
     }
 
