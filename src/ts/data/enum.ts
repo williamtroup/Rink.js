@@ -12,12 +12,7 @@
 
 
 export enum Char {
-    empty = "",
-    space = " ",
-    newLine = "\n",
     dash = "-",
-    comma = ",",
-    dot = ".",
 }
 
 export enum Value {

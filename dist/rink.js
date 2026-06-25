@@ -1,83 +1,88 @@
 "use strict";
 
-var t;
+var t = (t => {
+    t["dash"] = "-";
+    return t;
+})(t || {});
 
-(t => {
-    function e(t) {
-        return t !== null && t !== void 0 && t.toString() !== "";
+var n;
+
+(n => {
+    function e(n) {
+        return n !== null && n !== void 0 && n.toString() !== t.empty;
     }
-    t.defined = e;
-    function n(t) {
+    n.defined = e;
+    function r(t) {
         return e(t) && typeof t === "object";
     }
-    t.definedObject = n;
-    function r(t) {
+    n.definedObject = r;
+    function i(t) {
         return e(t) && typeof t === "boolean";
     }
-    t.definedBoolean = r;
-    function i(t) {
+    n.definedBoolean = i;
+    function o(t) {
         return e(t) && typeof t === "string";
     }
-    t.definedString = i;
-    function o(t) {
+    n.definedString = o;
+    function f(t) {
         return e(t) && typeof t === "function";
     }
-    t.definedFunction = o;
-    function f(t) {
+    n.definedFunction = f;
+    function c(t) {
         return e(t) && typeof t === "number";
     }
-    t.definedNumber = f;
-    function c(t) {
-        return n(t) && t instanceof Array;
+    n.definedNumber = c;
+    function a(t) {
+        return r(t) && t instanceof Array;
     }
-    t.definedArray = c;
-})(t || (t = {}));
+    n.definedArray = a;
+})(n || (n = {}));
 
 var e;
 
 (e => {
-    function n(e, n) {
-        return t.definedString(e) ? e : n;
+    function r(t, e) {
+        return n.definedString(t) ? t : e;
     }
-    e.getString = n;
-    function r(e, n) {
-        return t.definedBoolean(e) ? e : n;
+    e.getString = r;
+    function i(t, e) {
+        return n.definedBoolean(t) ? t : e;
     }
-    e.getBoolean = r;
-    function i(e, n) {
-        return t.definedNumber(e) ? e : n;
+    e.getBoolean = i;
+    function o(t, e) {
+        return n.definedNumber(t) ? t : e;
     }
-    e.getNumber = i;
-    function o(e, n) {
-        return t.definedFunction(e) ? e : n;
+    e.getNumber = o;
+    function f(t, e) {
+        return n.definedFunction(t) ? t : e;
     }
-    e.getFunction = o;
-    function f(e, n) {
-        return t.definedArray(e) ? e : n;
+    e.getFunction = f;
+    function c(t, e) {
+        return n.definedArray(t) ? t : e;
     }
-    e.getArray = f;
-    function c(e, n) {
-        return t.definedObject(e) ? e : n;
+    e.getArray = c;
+    function a(t, e) {
+        return n.definedObject(t) ? t : e;
     }
-    e.getObject = c;
-    function u(e, n) {
-        let r = n;
-        if (t.definedString(e)) {
-            const t = e.toString().split(" ");
-            if (t.length === 0) {
-                e = n;
+    e.getObject = a;
+    function s(e, r) {
+        let i = r;
+        if (n.definedString(e)) {
+            const n = e.toString().split(t.space);
+            if (n.length === 0) {
+                e = r;
             } else {
-                r = t;
+                i = n;
             }
         } else {
-            r = f(e, n);
+            i = c(e, r);
         }
-        return r;
+        return i;
     }
-    e.getStringOrArray = u;
+    e.getStringOrArray = s;
 })(e || (e = {}));
 
-var n;
+var r;
 
 (t => {
     let n;
@@ -89,22 +94,22 @@ var n;
         }
         t.get = n;
     })(n = t.Options || (t.Options = {}));
-})(n || (n = {}));
+})(r || (r = {}));
 
-var r;
+var i;
 
 (t => {
-    function e(t) {
+    function n(t) {
         if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", () => t());
         } else {
             t();
         }
     }
-    t.onContentLoaded = e;
-})(r || (r = {}));
+    t.onContentLoaded = n;
+})(i || (i = {}));
 
-var i;
+var o;
 
 (t => {
     t.RINK_JS_ATTRIBUTE_NAME_SM = "data-rink-js-sm";
@@ -112,136 +117,155 @@ var i;
     t.RINK_JS_ATTRIBUTE_NAME_LG = "data-rink-js-lg";
     t.RINK_JS_ATTRIBUTE_NAME_XL = "data-rink-js-xl";
     t.RINK_JS_ATTRIBUTE_NAME_XXL = "data-rink-js-xxl";
-})(i || (i = {}));
+    t.RINK_JS_ATTRIBUTE_NAME_CUSTOM = "data-rink-js";
+})(o || (o = {}));
 
 (() => {
-    let e = {};
-    const o = {};
+    let t = {};
+    const e = {};
     let f = 0;
     function c() {
         const t = [ "a" ];
-        const e = t.length;
-        let n = false;
-        for (let r = 0; r < e; r++) {
-            const e = document.getElementsByTagName(t[r]);
-            const i = [].slice.call(e);
+        const n = t.length;
+        let e = false;
+        for (let r = 0; r < n; r++) {
+            const n = document.getElementsByTagName(t[r]);
+            const i = [].slice.call(n);
             const o = i.length;
             for (let t = 0; t < o; t++) {
-                if (u(i[t])) {
-                    n = true;
+                if (a(i[t])) {
+                    e = true;
                 }
             }
         }
-        if (n) {
-            window.addEventListener("resize", a);
-            s();
+        if (e) {
+            window.addEventListener("resize", d);
+            g();
         }
     }
-    function u(e) {
-        let n = false;
-        const r = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_SM);
-        const o = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_MD);
-        const f = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_LG);
-        const c = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_XL);
-        const u = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_XXL);
-        if (t.definedString(r)) {
-            d(576, e, r);
-            n = true;
+    function a(t) {
+        let e = false;
+        const r = t.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_SM);
+        const i = t.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_MD);
+        const f = t.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_LG);
+        const c = t.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
+        const a = t.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
+        if (n.definedString(r)) {
+            u(576, t, r);
+            e = true;
         }
-        if (t.definedString(o)) {
-            d(768, e, o);
-            n = true;
+        if (n.definedString(i)) {
+            u(768, t, i);
+            e = true;
         }
-        if (t.definedString(f)) {
-            d(992, e, f);
-            n = true;
+        if (n.definedString(f)) {
+            u(992, t, f);
+            e = true;
         }
-        if (t.definedString(c)) {
-            d(1200, e, c);
-            n = true;
+        if (n.definedString(c)) {
+            u(1200, t, c);
+            e = true;
         }
-        if (t.definedString(u)) {
-            d(1400, e, u);
-            n = true;
+        if (n.definedString(a)) {
+            u(1400, t, a);
+            e = true;
         }
-        return n;
+        if (!e) {
+            s(t);
+        }
+        return e;
     }
-    function d(t, e, n) {
-        if (!Object.prototype.hasOwnProperty.call(o, t.toString())) {
-            o[t.toString()] = [];
+    function s(t) {
+        const e = t.attributes;
+        const r = e.length;
+        for (let i = 0; i < r; i++) {
+            const r = e[i];
+            if (r.name.startsWith(o.RINK_JS_ATTRIBUTE_NAME_CUSTOM)) {
+                const e = r.name.split("-");
+                const i = e[e.length - 1];
+                const o = r.value;
+                if (n.definedString(o)) {
+                    u(parseInt(i), t, o);
+                }
+            }
         }
-        o[t.toString()].push({
-            anchorTag: e,
-            newTarget: n,
-            originalTarget: e.getAttribute("target")
+    }
+    function u(t, n, r) {
+        if (!Object.prototype.hasOwnProperty.call(e, t.toString())) {
+            e[t.toString()] = [];
+        }
+        e[t.toString()].push({
+            anchorTag: n,
+            newTarget: r,
+            originalTarget: n.getAttribute("target")
         });
     }
-    function a() {
+    function d() {
         if (f !== 0) {
             clearTimeout(f);
         }
-        f = setTimeout(() => s(), 250);
-    }
-    function s() {
-        l(g());
+        f = setTimeout(() => g(), 250);
     }
     function g() {
+        T(l());
+    }
+    function l() {
         const t = [];
-        for (const e in o) {
-            if (Object.prototype.hasOwnProperty.call(o, e)) {
-                const n = window.innerWidth;
-                const r = parseInt(e);
-                if (n >= r) {
-                    const n = o[e];
-                    const r = n.length;
-                    t.push(e);
-                    for (let t = 0; t < r; t++) {
-                        const e = n[t];
-                        e.anchorTag.setAttribute("target", e.newTarget);
+        for (const n in e) {
+            if (Object.prototype.hasOwnProperty.call(e, n)) {
+                const r = window.innerWidth;
+                const i = parseInt(n);
+                if (r >= i) {
+                    const r = e[n];
+                    const i = r.length;
+                    t.push(n);
+                    for (let t = 0; t < i; t++) {
+                        const n = r[t];
+                        n.anchorTag.setAttribute("target", n.newTarget);
                     }
                 }
             }
         }
         return t;
     }
-    function l(t) {
-        for (const e in o) {
-            if (Object.prototype.hasOwnProperty.call(o, e)) {
-                if (t.indexOf(e) === -1) {
-                    const t = o[e];
-                    const n = t.length;
-                    for (let e = 0; e < n; e++) {
-                        const n = t[e];
-                        n.anchorTag.setAttribute("target", n.originalTarget);
+    function T(t) {
+        for (const n in e) {
+            if (Object.prototype.hasOwnProperty.call(e, n)) {
+                if (t.indexOf(n) === -1) {
+                    const t = e[n];
+                    const r = t.length;
+                    for (let n = 0; n < r; n++) {
+                        const e = t[n];
+                        e.anchorTag.setAttribute("target", e.originalTarget);
                     }
                 }
             }
         }
     }
-    const T = {
-        setConfiguration: r => {
-            if (t.definedObject(r)) {
-                const t = e;
+    const _ = {
+        setConfiguration: e => {
+            if (n.definedObject(e)) {
+                const n = t;
                 let i = false;
-                for (const e in r) {
-                    if (Object.prototype.hasOwnProperty.call(r, e) && Object.prototype.hasOwnProperty.call(t, e) && t[e] !== r[e]) {
-                        t[e] = r[e];
+                for (const t in e) {
+                    if (Object.prototype.hasOwnProperty.call(e, t) && Object.prototype.hasOwnProperty.call(n, t) && n[t] !== e[t]) {
+                        n[t] = e[t];
                         i = true;
                     }
                 }
                 if (i) {
-                    e = n.Options.get(t);
+                    t = r.Options.get(n);
                 }
             }
-            return T;
+            return _;
         },
         getVersion: () => "1.0.0"
     };
     (() => {
-        e = n.Options.get();
-        r.onContentLoaded(() => c());
-        if (!t.defined(window.$rink)) {
-            window.$rink = T;
+        t = r.Options.get();
+        i.onContentLoaded(() => c());
+        if (!n.defined(window.$rink)) {
+            window.$rink = _;
         }
     })();
 })();//# sourceMappingURL=rink.js.map

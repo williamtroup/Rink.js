@@ -17,4 +17,5 @@ export namespace Constant {
     export const RINK_JS_ATTRIBUTE_NAME_LG: string = "data-rink-js-lg";
     export const RINK_JS_ATTRIBUTE_NAME_XL: string = "data-rink-js-xl";
     export const RINK_JS_ATTRIBUTE_NAME_XXL: string = "data-rink-js-xxl";
+    export const RINK_JS_ATTRIBUTE_NAME_CUSTOM: string = "data-rink-js";
 }

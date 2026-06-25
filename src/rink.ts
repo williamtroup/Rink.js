@@ -21,7 +21,7 @@ import { Is } from "./ts/data/is";
 import { Configuration } from "./ts/options/config";
 import { DocumentElement } from "./ts/dom/document-element";
 import { Constant } from "./ts/constant";
-import { ScreenSize, Value } from "./ts/data/enum";
+import { Char, ScreenSize, Value } from "./ts/data/enum";
 
 
 ( () : void => {
@@ -97,10 +97,33 @@ import { ScreenSize, Value } from "./ts/data/enum";
             added = true;
         }
 
+        if ( !added ) {
+            findCustomSizeAnchor( anchorElement );
+        }
+
         return added;
     }
 
-    function addAnchorToScreenWidthAnchors( screenSize: ScreenSize, anchorElement: HTMLAnchorElement, newTarget: string ) : void {
+    function findCustomSizeAnchor( anchorElement: HTMLAnchorElement ) : void {
+        const anchorTagAttributes: NamedNodeMap = anchorElement.attributes;
+        const anchorTagAttributesLength: number = anchorTagAttributes.length;
+
+        for ( let anchorTagAttributeIndex = 0; anchorTagAttributeIndex < anchorTagAttributesLength; anchorTagAttributeIndex++ ) {
+            const anchorTagAttribute: Attr = anchorTagAttributes[ anchorTagAttributeIndex ];
+
+            if ( anchorTagAttribute.name.startsWith( Constant.RINK_JS_ATTRIBUTE_NAME_CUSTOM ) ) {
+                const attributeNameParts: string[] = anchorTagAttribute.name.split( Char.dash );
+                const attributeWidth: string = attributeNameParts[ attributeNameParts.length - 1 ];
+                const anchorTarget: string = anchorTagAttribute.value;
+
+                if ( Is.definedString( anchorTarget ) ) {
+                    addAnchorToScreenWidthAnchors( parseInt( attributeWidth ), anchorElement, anchorTarget );
+                }
+            }
+        }
+    }
+
+    function addAnchorToScreenWidthAnchors( screenSize: number, anchorElement: HTMLAnchorElement, newTarget: string ) : void {
         if ( !Object.prototype.hasOwnProperty.call( _screenWidthAnchors, screenSize.toString() ) ) {
             _screenWidthAnchors[ screenSize.toString() ] = [];
         }
