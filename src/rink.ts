@@ -30,7 +30,7 @@ import { DocumentElement } from "./ts/dom/document-element";
      */
 
     function render() : void {
-        const tagTypes: string[] = _configurationOptions.domElementTypes as string[];
+        const tagTypes: string[] = [ "a" ];
         const tagTypesLength: number = tagTypes.length;
 
         for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {

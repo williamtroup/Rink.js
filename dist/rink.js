@@ -1,136 +1,134 @@
 "use strict";
 
-var e;
-
-(e => {
-    function n(e) {
-        return e !== null && e !== void 0 && e.toString() !== "";
-    }
-    e.defined = n;
-    function t(e) {
-        return n(e) && typeof e === "object";
-    }
-    e.definedObject = t;
-    function o(e) {
-        return n(e) && typeof e === "boolean";
-    }
-    e.definedBoolean = o;
-    function r(e) {
-        return n(e) && typeof e === "string";
-    }
-    e.definedString = r;
-    function i(e) {
-        return n(e) && typeof e === "function";
-    }
-    e.definedFunction = i;
-    function d(e) {
-        return n(e) && typeof e === "number";
-    }
-    e.definedNumber = d;
-    function f(e) {
-        return t(e) && e instanceof Array;
-    }
-    e.definedArray = f;
-})(e || (e = {}));
-
 var n;
 
 (n => {
-    function t(n, t) {
-        return e.definedString(n) ? n : t;
+    function e(n) {
+        return n !== null && n !== void 0 && n.toString() !== "";
     }
-    n.getString = t;
-    function o(n, t) {
-        return e.definedBoolean(n) ? n : t;
+    n.defined = e;
+    function t(n) {
+        return e(n) && typeof n === "object";
     }
-    n.getBoolean = o;
-    function r(n, t) {
-        return e.definedNumber(n) ? n : t;
+    n.definedObject = t;
+    function o(n) {
+        return e(n) && typeof n === "boolean";
     }
-    n.getNumber = r;
-    function i(n, t) {
-        return e.definedFunction(n) ? n : t;
+    n.definedBoolean = o;
+    function r(n) {
+        return e(n) && typeof n === "string";
     }
-    n.getFunction = i;
-    function d(n, t) {
-        return e.definedArray(n) ? n : t;
+    n.definedString = r;
+    function i(n) {
+        return e(n) && typeof n === "function";
     }
-    n.getArray = d;
-    function f(n, t) {
-        return e.definedObject(n) ? n : t;
+    n.definedFunction = i;
+    function f(n) {
+        return e(n) && typeof n === "number";
     }
-    n.getObject = f;
-    function u(n, t) {
+    n.definedNumber = f;
+    function d(n) {
+        return t(n) && n instanceof Array;
+    }
+    n.definedArray = d;
+})(n || (n = {}));
+
+var e;
+
+(e => {
+    function t(e, t) {
+        return n.definedString(e) ? e : t;
+    }
+    e.getString = t;
+    function o(e, t) {
+        return n.definedBoolean(e) ? e : t;
+    }
+    e.getBoolean = o;
+    function r(e, t) {
+        return n.definedNumber(e) ? e : t;
+    }
+    e.getNumber = r;
+    function i(e, t) {
+        return n.definedFunction(e) ? e : t;
+    }
+    e.getFunction = i;
+    function f(e, t) {
+        return n.definedArray(e) ? e : t;
+    }
+    e.getArray = f;
+    function d(e, t) {
+        return n.definedObject(e) ? e : t;
+    }
+    e.getObject = d;
+    function u(e, t) {
         let o = t;
-        if (e.definedString(n)) {
-            const e = n.toString().split(" ");
-            if (e.length === 0) {
-                n = t;
+        if (n.definedString(e)) {
+            const n = e.toString().split(" ");
+            if (n.length === 0) {
+                e = t;
             } else {
-                o = e;
+                o = n;
             }
         } else {
-            o = d(n, t);
+            o = f(e, t);
         }
         return o;
     }
-    n.getStringOrArray = u;
-})(n || (n = {}));
+    e.getStringOrArray = u;
+})(e || (e = {}));
 
 var t;
 
-(e => {
+(n => {
     let t;
-    (e => {
-        function t(e = null) {
-            const t = n.getObject(e, {});
-            t.safeMode = n.getBoolean(t.safeMode, true);
-            t.domElementTypes = n.getStringOrArray(t.domElementTypes, [ "*" ]);
-            t.formattingNodeTypes = n.getStringOrArray(t.formattingNodeTypes, [ "b", "strong", "i", "em", "mark", "small", "del", "ins", "sub", "sup" ]);
+    (n => {
+        function t(n = null) {
+            const t = e.getObject(n, {});
+            t.safeMode = e.getBoolean(t.safeMode, true);
             return t;
         }
-        e.get = t;
-    })(t = e.Options || (e.Options = {}));
+        n.get = t;
+    })(t = n.Options || (n.Options = {}));
 })(t || (t = {}));
 
 var o;
 
-(e => {
-    function n(e) {
+(n => {
+    function e(n) {
         if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", () => e());
+            document.addEventListener("DOMContentLoaded", () => n());
         } else {
-            e();
+            n();
         }
     }
-    e.onContentLoaded = n;
+    n.onContentLoaded = e;
 })(o || (o = {}));
 
 (() => {
-    let n = {};
+    let e = {};
     function r() {
-        const e = n.domElementTypes;
-        const t = e.length;
-        for (let n = 0; n < t; n++) {
-            const t = document.getElementsByTagName(e[n]);
-            const o = [].slice.call(t);
+        const n = [ "a" ];
+        const e = n.length;
+        for (let t = 0; t < e; t++) {
+            const e = document.getElementsByTagName(n[t]);
+            const o = [].slice.call(e);
             const r = o.length;
-            for (let e = 0; e < r; e++) {}
+            for (let n = 0; n < r; n++) {}
         }
     }
     const i = {
         setConfiguration: o => {
-            if (e.definedObject(o)) {
-                const e = n;
+            if (n.definedObject(o)) {
+                const n = e;
                 let r = false;
-                for (const n in o) {
-                    if (Object.prototype.hasOwnProperty.call(o, n) && Object.prototype.hasOwnProperty.call(e, n) && e[n] !== o[n]) {
-                        e[n] = o[n];
+                for (const e in o) {
+                    if (Object.prototype.hasOwnProperty.call(o, e) && Object.prototype.hasOwnProperty.call(n, e) && n[e] !== o[e]) {
+                        n[e] = o[e];
                         r = true;
                     }
                 }
                 if (r) {
-                    n = t.Options.get(e);
+                    e = t.Options.get(n);
                 }
             }
             return i;
@@ -138,9 +136,9 @@ var o;
         getVersion: () => "1.0.0"
     };
     (() => {
-        n = t.Options.get();
+        e = t.Options.get();
         o.onContentLoaded(() => r());
-        if (!e.defined(window.$rink)) {
+        if (!n.defined(window.$rink)) {
             window.$rink = i;
         }
     })();

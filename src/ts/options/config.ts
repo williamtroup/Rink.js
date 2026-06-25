@@ -20,19 +20,6 @@ export namespace Configuration {
         export function get( newConfigurationOptions: unknown = null ) : ConfigurationOptions {
             const configurationOptions: ConfigurationOptions = Default.getObject( newConfigurationOptions, {} as ConfigurationOptions );
             configurationOptions.safeMode = Default.getBoolean( configurationOptions.safeMode, true );
-            configurationOptions.domElementTypes = Default.getStringOrArray( configurationOptions.domElementTypes, [ "*" ] );
-            configurationOptions.formattingNodeTypes = Default.getStringOrArray( configurationOptions.formattingNodeTypes, [
-                "b",
-                "strong",
-                "i",
-                "em",
-                "mark",
-                "small",
-                "del",
-                "ins",
-                "sub",
-                "sup"
-            ] );
 
             return configurationOptions;
         }
