@@ -11,16 +11,26 @@
  */
 
 
-import { type ConfigurationOptions } from "./ts/type";
+import {
+    type AnchorOptions,
+    type ConfigurationOptions } from "./ts/type";
+
 import { type PublicApi } from "./ts/api";
+
 import { Is } from "./ts/data/is";
 import { Configuration } from "./ts/options/config";
 import { DocumentElement } from "./ts/dom/document-element";
+import { Constant } from "./ts/constant";
+import { ScreenSize, Value } from "./ts/data/enum";
 
 
 ( () : void => {
     // Variables: Configuration
     let _configurationOptions: ConfigurationOptions = {} as ConfigurationOptions;
+
+    // Variables: Anchors
+    const _screenWidthAnchors: Record<string, AnchorOptions[]> = {};
+    let _screenWidthChangeTimer: number = 0;
     
 
     /*
@@ -32,6 +42,7 @@ import { DocumentElement } from "./ts/dom/document-element";
     function render() : void {
         const tagTypes: string[] = [ "a" ];
         const tagTypesLength: number = tagTypes.length;
+        let anchorTagsFound: boolean = false;
 
         for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
             const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( tagTypes[ tagTypeIndex ] );
@@ -39,7 +50,126 @@ import { DocumentElement } from "./ts/dom/document-element";
             const elementsLength: number = elements.length;
 
             for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
-                // TODO:  Add rendering logic here.
+                if ( renderElement( elements[ elementIndex ] as HTMLAnchorElement ) ) {
+                    anchorTagsFound = true;
+                }
+            }
+        }
+
+        if ( anchorTagsFound ) {
+            window.addEventListener( "resize", onWindowResize );
+
+            updateAnchorTags();
+        }
+    }
+
+    function renderElement( anchorElement: HTMLAnchorElement ) : boolean {
+        let added: boolean = false;
+
+        const attributeSmData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_SM )!;
+        const attributeMdData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_MD )!;
+        const attributeLgData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_LG )!;
+        const attributeXlData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_XL )!;
+        const attributeXxlData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_XXL )!;
+
+        if ( Is.definedString( attributeSmData ) ) {
+            addAnchorToScreenWidthAnchors( ScreenSize.sm, anchorElement, attributeSmData );
+            added = true;
+        }
+
+        if ( Is.definedString( attributeMdData ) ) {
+            addAnchorToScreenWidthAnchors( ScreenSize.md, anchorElement, attributeMdData );
+            added = true;
+        }
+
+        if ( Is.definedString( attributeLgData ) ) {
+            addAnchorToScreenWidthAnchors( ScreenSize.lg, anchorElement, attributeLgData );
+            added = true;
+        }
+
+        if ( Is.definedString( attributeXlData ) ) {
+            addAnchorToScreenWidthAnchors( ScreenSize.xl, anchorElement, attributeXlData );
+            added = true;
+        }
+
+        if ( Is.definedString( attributeXxlData ) ) {
+            addAnchorToScreenWidthAnchors( ScreenSize.xxl, anchorElement, attributeXxlData );
+            added = true;
+        }
+
+        return added;
+    }
+
+    function addAnchorToScreenWidthAnchors( screenSize: ScreenSize, anchorElement: HTMLAnchorElement, newTarget: string ) : void {
+        if ( !Object.prototype.hasOwnProperty.call( _screenWidthAnchors, screenSize.toString() ) ) {
+            _screenWidthAnchors[ screenSize.toString() ] = [];
+        }
+
+        _screenWidthAnchors[ screenSize.toString() ].push( {
+            anchorTag: anchorElement,
+            newTarget: newTarget,
+            originalTarget: anchorElement.getAttribute( "target" )!
+        } as AnchorOptions );
+    }
+
+
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Window Resizing
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    function onWindowResize() : void {
+        if (_screenWidthChangeTimer !== 0) {
+            clearTimeout(_screenWidthChangeTimer);
+        }
+
+        _screenWidthChangeTimer = setTimeout( () => updateAnchorTags() , 250 );
+    }
+
+    function updateAnchorTags() {
+        updateAnchorTagsNotProcessed(updateAnchorTagTargets())
+    }
+
+    function updateAnchorTagTargets() : string[] {
+        const screenWidthsProcessed: string[] = [];
+
+        for ( const screenWidth in _screenWidthAnchors ) {
+            if ( Object.prototype.hasOwnProperty.call( _screenWidthAnchors, screenWidth ) ) {
+                const windowWidth: number = window.innerWidth;
+                const windowCheckWidth: number = parseInt(screenWidth);
+
+                if ( windowWidth >= windowCheckWidth ) {
+                    const anchorTags: AnchorOptions[] = _screenWidthAnchors[ screenWidth ];
+                    const anchorTagsLength: number = anchorTags.length;
+
+                    screenWidthsProcessed.push( screenWidth );
+
+                    for ( let anchorTagIndex = 0; anchorTagIndex < anchorTagsLength; anchorTagIndex++ ) {
+                        const anchorTag: AnchorOptions = anchorTags[ anchorTagIndex ];
+
+                        anchorTag.anchorTag.setAttribute( "target", anchorTag.newTarget! );
+                    }
+                }
+            }
+        }
+
+        return screenWidthsProcessed;
+    }
+
+    function updateAnchorTagsNotProcessed( screenWidthsProcessed: string[] ) : void {
+        for ( const screenWidth in _screenWidthAnchors ) {
+            if ( Object.prototype.hasOwnProperty.call( _screenWidthAnchors, screenWidth ) ) {
+                if ( screenWidthsProcessed.indexOf( screenWidth ) === Value.notFound ) {
+                    const anchorTags: AnchorOptions[] = _screenWidthAnchors[ screenWidth ];
+                    const anchorTagsLength: number = anchorTags.length;
+
+                    for ( let anchorTagIndex = 0; anchorTagIndex < anchorTagsLength; anchorTagIndex++ ) {
+                        const anchorTag: AnchorOptions = anchorTags[ anchorTagIndex ];
+
+                        anchorTag.anchorTag.setAttribute( "target", anchorTag.originalTarget! );
+                    }
+                }
             }
         }
     }

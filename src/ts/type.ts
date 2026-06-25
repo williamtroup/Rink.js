@@ -14,3 +14,9 @@
 export type ConfigurationOptions = {
     safeMode?: boolean;
 };
+
+export type AnchorOptions = {
+    anchorTag: HTMLAnchorElement;
+    newTarget?: string;
+    originalTarget?: string;
+};
