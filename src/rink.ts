@@ -143,15 +143,15 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
      */
 
     function onWindowResize() : void {
-        if (_screenWidthChangeTimer !== 0) {
-            clearTimeout(_screenWidthChangeTimer);
+        if ( _screenWidthChangeTimer !== 0 ) {
+            clearTimeout( _screenWidthChangeTimer );
         }
 
         _screenWidthChangeTimer = setTimeout( () => updateAnchorTags() , _configurationOptions.responsiveDelay! );
     }
 
     function updateAnchorTags() {
-        updateAnchorTagsNotProcessed(updateAnchorTagTargets())
+        updateAnchorTagsNotProcessed( updateAnchorTagTargets() );
     }
 
     function updateAnchorTagTargets() : string[] {
@@ -160,7 +160,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         for ( const screenWidth in _screenWidthAnchors ) {
             if ( Object.prototype.hasOwnProperty.call( _screenWidthAnchors, screenWidth ) ) {
                 const windowWidth: number = window.innerWidth;
-                const windowCheckWidth: number = parseInt(screenWidth);
+                const windowCheckWidth: number = parseInt( screenWidth );
 
                 if ( windowWidth >= windowCheckWidth ) {
                     const anchorTags: AnchorOptions[] = _screenWidthAnchors[ screenWidth ];
