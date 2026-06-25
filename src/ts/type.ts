@@ -12,7 +12,7 @@
 
 
 export type ConfigurationOptions = {
-    safeMode?: boolean;
+    responsiveDelay?: number;
 };
 
 export type AnchorOptions = {

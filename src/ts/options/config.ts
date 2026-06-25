@@ -19,7 +19,7 @@ export namespace Configuration {
     export namespace Options {
         export function get( newConfigurationOptions: unknown = null ) : ConfigurationOptions {
             const configurationOptions: ConfigurationOptions = Default.getObject( newConfigurationOptions, {} as ConfigurationOptions );
-            configurationOptions.safeMode = Default.getBoolean( configurationOptions.safeMode, true );
+            configurationOptions.responsiveDelay = Default.getNumber( configurationOptions.responsiveDelay, 250 );
 
             return configurationOptions;
         }

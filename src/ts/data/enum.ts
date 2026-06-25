@@ -12,6 +12,7 @@
 
 
 export enum Char {
+    empty = "",
     dash = "-",
 }
 

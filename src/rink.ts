@@ -147,7 +147,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
             clearTimeout(_screenWidthChangeTimer);
         }
 
-        _screenWidthChangeTimer = setTimeout( () => updateAnchorTags() , 250 );
+        _screenWidthChangeTimer = setTimeout( () => updateAnchorTags() , _configurationOptions.responsiveDelay! );
     }
 
     function updateAnchorTags() {
