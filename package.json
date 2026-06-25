@@ -1,7 +1,7 @@
 {
   "name": "rink.js",
   "title": "Rink.js",
-  "description": "A JavaScript library for dynamically creating responsive link destinations in HTML.",
+  "description": "A JavaScript library for generating responsive HTML link targets.",
   "version": "1.0.0",
   "homepage": "https://github.com/williamtroup/Rink.js",
   "author": {

@@ -1,7 +1,7 @@
 /**
  * Rink.js
  * 
- * A JavaScript library for dynamically creating responsive link destinations in HTML.
+ * A JavaScript library for generating responsive HTML link targets.
  * 
  * @file        is.ts
  * @version     v1.0.0
