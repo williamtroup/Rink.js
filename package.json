@@ -3,7 +3,7 @@
   "title": "Rink.js",
   "description": "A JavaScript library for dynamically creating responsive link destinations in HTML.",
   "version": "1.0.0",
-  "homepage": "https://www.william-troup.com/rink-js/",
+  "homepage": "https://github.com/williamtroup/Rink.js",
   "author": {
     "name": "Bunoon"
   },
@@ -15,19 +15,14 @@
   "keywords": [
     "typescript",
     "javascript",
-    "css",
     "html5",
     "rink.js",
-    "json",
+    "anchor",
     "html",
-    "convert",
-    "conversion",
-    "converter",
-    "template",
-    "render",
-    "text",
-    "formatting",
-    "binding"
+    "responsive",
+    "link",
+    "target",
+    "render"
   ],
   "bugs": {
     "url": "https://github.com/williamtroup/Rink.js/issues"

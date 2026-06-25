@@ -6,11 +6,11 @@
         <title>Rink.js</title>
         <description>A JavaScript library for dynamically creating responsive link destinations in HTML.</description>
         <authors>William Troup</authors>
-        <projectUrl>https://www.william-troup.com/rink-js/</projectUrl>
+        <projectUrl>https://github.com/williamtroup/Rink.js</projectUrl>
         <repository type="git" url="https://github.com/williamtroup/Rink.js" branch="main" />
         <readme>README_NUGET.md</readme>
         <license type="expression">MIT</license>
-        <tags>typescript javascript css html5 rink.js json html convert render template conversion converter text formatting binding</tags>
+        <tags>typescript, javascript, html5, rink.js, anchor, html, responsive, link, target, render</tags>
         <icon>docs\images\icon.png</icon>
         <copyright>William Troup</copyright>
     </metadata>
