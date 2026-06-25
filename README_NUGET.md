@@ -7,7 +7,7 @@
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Rink.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
 
-> 📃 A JavaScript library for dynamically creating responsive link destinations in HTML.
+> 🔗 A JavaScript library for dynamically creating responsive link destinations in HTML.
 
 
 ## What features does Rink.js have?
