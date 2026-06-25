@@ -82,31 +82,27 @@ var i;
     const o = {};
     let s = 0;
     function a() {
-        const t = [ "a" ];
-        const e = t.length;
-        let n = false;
-        for (let r = 0; r < e; r++) {
-            const e = document.getElementsByTagName(t[r]);
-            const i = [].slice.call(e);
-            const o = i.length;
-            for (let t = 0; t < o; t++) {
-                if (c(i[t])) {
-                    n = true;
-                }
+        let t = false;
+        const e = document.getElementsByTagName("a");
+        const n = [].slice.call(e);
+        const r = n.length;
+        for (let e = 0; e < r; e++) {
+            if (f(n[e])) {
+                t = true;
             }
         }
-        if (n) {
+        if (t) {
             window.addEventListener("resize", u);
             g();
         }
     }
-    function c(e) {
+    function f(e) {
         let n = false;
         const r = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_SM);
         const o = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_MD);
         const s = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_LG);
         const a = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_XL);
-        const c = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_XXL);
+        const f = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_XXL);
         if (t.definedString(r)) {
             d(576, e, r);
             n = true;
@@ -123,16 +119,16 @@ var i;
             d(1200, e, a);
             n = true;
         }
-        if (t.definedString(c)) {
-            d(1400, e, c);
+        if (t.definedString(f)) {
+            d(1400, e, f);
             n = true;
         }
         if (!n) {
-            f(e);
+            c(e);
         }
         return n;
     }
-    function f(e) {
+    function c(e) {
         const n = e.attributes;
         const r = n.length;
         for (let o = 0; o < r; o++) {

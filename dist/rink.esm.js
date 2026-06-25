@@ -80,20 +80,16 @@ var i;
     const o = {};
     let s = 0;
     function a() {
-        const t = [ "a" ];
-        const e = t.length;
-        let n = false;
-        for (let r = 0; r < e; r++) {
-            const e = document.getElementsByTagName(t[r]);
-            const i = [].slice.call(e);
-            const o = i.length;
-            for (let t = 0; t < o; t++) {
-                if (f(i[t])) {
-                    n = true;
-                }
+        let t = false;
+        const e = document.getElementsByTagName("a");
+        const n = [].slice.call(e);
+        const r = n.length;
+        for (let e = 0; e < r; e++) {
+            if (f(n[e])) {
+                t = true;
             }
         }
-        if (n) {
+        if (t) {
             window.addEventListener("resize", u);
             g();
         }

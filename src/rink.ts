@@ -40,19 +40,15 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
      */
 
     function render() : void {
-        const tagTypes: string[] = [ "a" ];
-        const tagTypesLength: number = tagTypes.length;
         let anchorTagsFound: boolean = false;
 
-        for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
-            const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( tagTypes[ tagTypeIndex ] );
-            const elements: HTMLElement[] = [].slice.call( domElements );
-            const elementsLength: number = elements.length;
+        const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( "a" );
+        const elements: HTMLElement[] = [].slice.call( domElements );
+        const elementsLength: number = elements.length;
 
-            for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
-                if ( renderElement( elements[ elementIndex ] as HTMLAnchorElement ) ) {
-                    anchorTagsFound = true;
-                }
+        for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
+            if ( renderElement( elements[ elementIndex ] as HTMLAnchorElement ) ) {
+                anchorTagsFound = true;
             }
         }
 
