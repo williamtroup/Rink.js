@@ -20,6 +20,7 @@ export namespace Configuration {
         export function get( newConfigurationOptions: unknown = null ) : ConfigurationOptions {
             const configurationOptions: ConfigurationOptions = Default.getObject( newConfigurationOptions, {} as ConfigurationOptions );
             configurationOptions.responsiveDelay = Default.getNumber( configurationOptions.responsiveDelay, 250 );
+            configurationOptions.defaultTarget = Default.getString( configurationOptions.defaultTarget, "_self" );
 
             return configurationOptions;
         }

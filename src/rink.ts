@@ -128,10 +128,16 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
             _screenWidthAnchors[ screenSize.toString() ] = [];
         }
 
+        let originalTarget: string | null = anchorElement.getAttribute( "target" );
+
+        if ( !Is.definedString( originalTarget ) ) {
+            originalTarget = _configurationOptions.defaultTarget!;
+        }
+
         _screenWidthAnchors[ screenSize.toString() ].push( {
             anchorTag: anchorElement,
             newTarget: newTarget,
-            originalTarget: anchorElement.getAttribute( "target" )!,
+            originalTarget: originalTarget,
         } as AnchorOptions );
     }
 
