@@ -22,11 +22,6 @@
 All modern browsers (such as Google Chrome, FireFox, and Opera) are fully supported.
 
 
-## What are the most recent changes?
-
-To see a list of all the most recent changes, click [here](https://www.william-troup.com/rink-js/documentation/recent-changes.html).
-
-
 ## How do I install Rink.js?
 
 You can install the library with npm into your local modules directory using the following command:
@@ -34,8 +29,6 @@ You can install the library with npm into your local modules directory using the
 ```markdown
 npm install rink.js
 ```
-
-Or, you can download the latest zipped up version [here](https://www.william-troup.com/rink-js/download.html).
 
 Or, you can also use the following CDN links:
 
@@ -79,12 +72,7 @@ That's it! Nice and simple. Please refer to the code if you need more help (full
 To customize, and get more out of Rink.js, please read through the following documentation.
 
 
-### 1. Public Functions:
-
-To see a list of all the public functions available, click [here](https://www.william-troup.com/rink-js/documentation/public-functions.html).
-
-
-### 2. Configuration:
+### 5. Configuration:
 
 Configuration options allow you to customize how Rink.js will function.  You can set them as follows:
 
@@ -95,5 +83,3 @@ Configuration options allow you to customize how Rink.js will function.  You can
     } );
 </script>
 ```
-
-To see a list of all the available configuration options you can use, click [here](https://www.william-troup.com/rink-js/documentation/options.html).
