@@ -26,4 +26,8 @@ export namespace Default {
     export function getObject( value: any, defaultValue: object ) : any {
         return Is.definedObject( value ) ? value : defaultValue;
     }
+
+    export function getBoolean( value: any, defaultValue: boolean ) : boolean {
+        return Is.definedBoolean( value ) ? value : defaultValue;
+    }
 }

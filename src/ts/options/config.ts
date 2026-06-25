@@ -21,6 +21,7 @@ export namespace Configuration {
             const configurationOptions: ConfigurationOptions = Default.getObject( newConfigurationOptions, {} as ConfigurationOptions );
             configurationOptions.responsiveDelay = Default.getNumber( configurationOptions.responsiveDelay, 250 );
             configurationOptions.defaultTarget = Default.getString( configurationOptions.defaultTarget, "_self" );
+            configurationOptions.removeAttributes = Default.getBoolean( configurationOptions.removeAttributes, true );
 
             return configurationOptions;
         }

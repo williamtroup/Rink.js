@@ -30,4 +30,8 @@ export namespace Is {
     export function definedNumber( object: any ) : boolean {
         return defined( object ) && typeof object === "number";
     }
+
+    export function definedBoolean( object: unknown ) : boolean {
+        return defined( object ) && typeof object === "boolean";
+    }
 }

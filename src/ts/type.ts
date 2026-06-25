@@ -14,6 +14,7 @@
 export type ConfigurationOptions = {
     responsiveDelay?: number;
     defaultTarget?: string;
+    removeAttributes?: boolean;
 };
 
 export type AnchorOptions = {
