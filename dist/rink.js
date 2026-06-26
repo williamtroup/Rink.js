@@ -243,7 +243,7 @@ var o;
             }
             return A;
         },
-        getVersion: () => "1.1.0"
+        getVersion: () => "1.2.0"
     };
     (() => {
         e = n.Options.get();
