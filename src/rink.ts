@@ -246,9 +246,11 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         */
 
         start: function () : PublicApi {
-            _enabled = true;
+            if ( !_enabled ) {
+                _enabled = true;
 
-            updateAnchorTags();
+                updateAnchorTags();
+            }
 
             return _public;
         },

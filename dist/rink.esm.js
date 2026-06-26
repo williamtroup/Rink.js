@@ -232,8 +232,10 @@ var o;
     }
     const N = {
         start: function() {
-            s = true;
-            T();
+            if (!s) {
+                s = true;
+                T();
+            }
             return N;
         },
         stop: function() {
