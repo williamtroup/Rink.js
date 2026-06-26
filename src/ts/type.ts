@@ -22,3 +22,8 @@ export type AnchorOptions = {
     newTarget?: string;
     originalTarget?: string;
 };
+
+export type AnchorTagsProcessed = {
+    screenWidths: string[];
+    anchorTags: HTMLAnchorElement[];
+}

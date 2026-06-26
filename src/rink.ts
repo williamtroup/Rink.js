@@ -12,6 +12,7 @@
 
 
 import {
+    AnchorTagsProcessed,
     type AnchorOptions,
     type ConfigurationOptions } from "./ts/type";
 
@@ -158,8 +159,12 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         updateAnchorTagsNotProcessed( updateAnchorTagTargets() );
     }
 
-    function updateAnchorTagTargets() : string[] {
-        const screenWidthsProcessed: string[] = [];
+    function updateAnchorTagTargets() : AnchorTagsProcessed {
+        const anchorTagsProcessed: AnchorTagsProcessed = {
+            screenWidths: [],
+            anchorTags: [],
+        };
+
         const screenWidths: string[] = getSortedScreenWidths();
         const screenWidthsLength: number = screenWidths.length;
 
@@ -174,21 +179,24 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
                     const anchorTags: AnchorOptions[] = _screenWidthAnchors[ screenWidth ];
                     const anchorTagsLength: number = anchorTags.length;
 
-                    screenWidthsProcessed.push( screenWidth );
+                    anchorTagsProcessed.screenWidths.push( screenWidth );
 
                     for ( let anchorTagIndex = 0; anchorTagIndex < anchorTagsLength; anchorTagIndex++ ) {
                         const anchorTag: AnchorOptions = anchorTags[ anchorTagIndex ];
 
-                        anchorTag.anchorTag.setAttribute( "target", anchorTag.newTarget! );
+                        if ( anchorTagsProcessed.anchorTags.indexOf( anchorTag.anchorTag ) === Value.notFound ) {
+                            anchorTagsProcessed.anchorTags.push( anchorTag.anchorTag );
+                            anchorTag.anchorTag.setAttribute( "target", anchorTag.newTarget! );
+                        }
                     }
                 }
             }
         }
 
-        return screenWidthsProcessed;
+        return anchorTagsProcessed;
     }
 
-    function updateAnchorTagsNotProcessed( screenWidthsProcessed: string[] ) : void {
+    function updateAnchorTagsNotProcessed( anchorTagsProcessed: AnchorTagsProcessed ) : void {
         const screenWidths: string[] = getSortedScreenWidths();
         const screenWidthsLength: number = screenWidths.length;
 
@@ -196,14 +204,16 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
             const screenWidth: string = screenWidths[ screenWidthIndex ];
 
             if ( Object.prototype.hasOwnProperty.call( _screenWidthAnchors, screenWidth ) ) {
-                if ( screenWidthsProcessed.indexOf( screenWidth ) === Value.notFound ) {
+                if ( anchorTagsProcessed.screenWidths.indexOf( screenWidth ) === Value.notFound ) {
                     const anchorTags: AnchorOptions[] = _screenWidthAnchors[ screenWidth ];
                     const anchorTagsLength: number = anchorTags.length;
 
                     for ( let anchorTagIndex = 0; anchorTagIndex < anchorTagsLength; anchorTagIndex++ ) {
                         const anchorTag: AnchorOptions = anchorTags[ anchorTagIndex ];
 
-                        anchorTag.anchorTag.setAttribute( "target", anchorTag.originalTarget! );
+                        if ( anchorTagsProcessed.anchorTags.indexOf( anchorTag.anchorTag ) === Value.notFound ) {
+                            anchorTag.anchorTag.setAttribute( "target", anchorTag.originalTarget! );
+                        }
                     }
                 }
             }
@@ -212,7 +222,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
 
     function getSortedScreenWidths() : string[] {
         return Object.keys( _screenWidthAnchors ).sort( ( optionA: string, optionB: string ) : number => 
-            optionA.toLowerCase().localeCompare( optionB.toLowerCase() )
+            optionB.toLowerCase().localeCompare( optionA.toLowerCase() )
         );
     }
 

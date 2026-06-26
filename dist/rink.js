@@ -102,7 +102,7 @@ var o;
         }
         if (t) {
             window.addEventListener("resize", d);
-            _();
+            T();
         }
     }
     function c(e) {
@@ -171,14 +171,17 @@ var o;
         if (s !== 0) {
             clearTimeout(s);
         }
-        s = setTimeout(() => _(), e.responsiveDelay);
-    }
-    function _() {
-        l(T());
+        s = setTimeout(() => T(), e.responsiveDelay);
     }
     function T() {
-        const t = [];
-        const e = g();
+        g(_());
+    }
+    function _() {
+        const t = {
+            screenWidths: [],
+            anchorTags: []
+        };
+        const e = l();
         const n = e.length;
         for (let r = 0; r < n; r++) {
             const n = e[r];
@@ -188,35 +191,40 @@ var o;
                 if (e >= r) {
                     const e = i[n];
                     const r = e.length;
-                    t.push(n);
-                    for (let t = 0; t < r; t++) {
-                        const n = e[t];
-                        n.anchorTag.setAttribute("target", n.newTarget);
+                    t.screenWidths.push(n);
+                    for (let n = 0; n < r; n++) {
+                        const r = e[n];
+                        if (t.anchorTags.indexOf(r.anchorTag) === -1) {
+                            t.anchorTags.push(r.anchorTag);
+                            r.anchorTag.setAttribute("target", r.newTarget);
+                        }
                     }
                 }
             }
         }
         return t;
     }
-    function l(t) {
-        const e = g();
+    function g(t) {
+        const e = l();
         const n = e.length;
         for (let r = 0; r < n; r++) {
             const n = e[r];
             if (Object.prototype.hasOwnProperty.call(i, n)) {
-                if (t.indexOf(n) === -1) {
-                    const t = i[n];
-                    const e = t.length;
-                    for (let n = 0; n < e; n++) {
-                        const e = t[n];
-                        e.anchorTag.setAttribute("target", e.originalTarget);
+                if (t.screenWidths.indexOf(n) === -1) {
+                    const e = i[n];
+                    const r = e.length;
+                    for (let n = 0; n < r; n++) {
+                        const r = e[n];
+                        if (t.anchorTags.indexOf(r.anchorTag) === -1) {
+                            r.anchorTag.setAttribute("target", r.originalTarget);
+                        }
                     }
                 }
             }
         }
     }
-    function g() {
-        return Object.keys(i).sort((t, e) => t.toLowerCase().localeCompare(e.toLowerCase()));
+    function l() {
+        return Object.keys(i).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
     }
     const A = {
         setConfiguration: r => {

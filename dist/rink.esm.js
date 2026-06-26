@@ -87,8 +87,8 @@ var o;
 (() => {
     let e = {};
     const i = {};
-    let s = 0;
-    function a() {
+    let a = 0;
+    function s() {
         let t = false;
         const e = document.getElementsByTagName("a");
         const n = [].slice.call(e);
@@ -100,15 +100,15 @@ var o;
         }
         if (t) {
             window.addEventListener("resize", d);
-            _();
+            T();
         }
     }
     function c(e) {
         let n = false;
         const r = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_SM);
         const i = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_MD);
-        const s = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_LG);
-        const a = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
+        const a = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_LG);
+        const s = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
         const c = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
         if (t.definedString(r)) {
             u(576, e, r, o.RINK_JS_ATTRIBUTE_NAME_SM);
@@ -118,12 +118,12 @@ var o;
             u(768, e, i, o.RINK_JS_ATTRIBUTE_NAME_MD);
             n = true;
         }
-        if (t.definedString(s)) {
-            u(992, e, s, o.RINK_JS_ATTRIBUTE_NAME_LG);
+        if (t.definedString(a)) {
+            u(992, e, a, o.RINK_JS_ATTRIBUTE_NAME_LG);
             n = true;
         }
-        if (t.definedString(a)) {
-            u(1200, e, a, o.RINK_JS_ATTRIBUTE_NAME_XL);
+        if (t.definedString(s)) {
+            u(1200, e, s, o.RINK_JS_ATTRIBUTE_NAME_XL);
             n = true;
         }
         if (t.definedString(c)) {
@@ -148,35 +148,38 @@ var o;
             }
         }
     }
-    function u(n, r, o, s) {
+    function u(n, r, o, a) {
         if (!Object.prototype.hasOwnProperty.call(i, n.toString())) {
             i[n.toString()] = [];
         }
-        let a = r.getAttribute("target");
-        if (!t.definedString(a)) {
-            a = e.defaultTarget;
+        let s = r.getAttribute("target");
+        if (!t.definedString(s)) {
+            s = e.defaultTarget;
         }
         i[n.toString()].push({
             anchorTag: r,
             newTarget: o,
-            originalTarget: a
+            originalTarget: s
         });
         if (e.removeAttributes) {
-            r.removeAttribute(s);
+            r.removeAttribute(a);
         }
     }
     function d() {
-        if (s !== 0) {
-            clearTimeout(s);
+        if (a !== 0) {
+            clearTimeout(a);
         }
-        s = setTimeout(() => _(), e.responsiveDelay);
-    }
-    function _() {
-        l(T());
+        a = setTimeout(() => T(), e.responsiveDelay);
     }
     function T() {
-        const t = [];
-        const e = g();
+        g(_());
+    }
+    function _() {
+        const t = {
+            screenWidths: [],
+            anchorTags: []
+        };
+        const e = l();
         const n = e.length;
         for (let r = 0; r < n; r++) {
             const n = e[r];
@@ -186,35 +189,40 @@ var o;
                 if (e >= r) {
                     const e = i[n];
                     const r = e.length;
-                    t.push(n);
-                    for (let t = 0; t < r; t++) {
-                        const n = e[t];
-                        n.anchorTag.setAttribute("target", n.newTarget);
+                    t.screenWidths.push(n);
+                    for (let n = 0; n < r; n++) {
+                        const r = e[n];
+                        if (t.anchorTags.indexOf(r.anchorTag) === -1) {
+                            t.anchorTags.push(r.anchorTag);
+                            r.anchorTag.setAttribute("target", r.newTarget);
+                        }
                     }
                 }
             }
         }
         return t;
     }
-    function l(t) {
-        const e = g();
+    function g(t) {
+        const e = l();
         const n = e.length;
         for (let r = 0; r < n; r++) {
             const n = e[r];
             if (Object.prototype.hasOwnProperty.call(i, n)) {
-                if (t.indexOf(n) === -1) {
-                    const t = i[n];
-                    const e = t.length;
-                    for (let n = 0; n < e; n++) {
-                        const e = t[n];
-                        e.anchorTag.setAttribute("target", e.originalTarget);
+                if (t.screenWidths.indexOf(n) === -1) {
+                    const e = i[n];
+                    const r = e.length;
+                    for (let n = 0; n < r; n++) {
+                        const r = e[n];
+                        if (t.anchorTags.indexOf(r.anchorTag) === -1) {
+                            r.anchorTag.setAttribute("target", r.originalTarget);
+                        }
                     }
                 }
             }
         }
     }
-    function g() {
-        return Object.keys(i).sort((t, e) => t.toLowerCase().localeCompare(e.toLowerCase()));
+    function l() {
+        return Object.keys(i).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
     }
     const A = {
         setConfiguration: r => {
@@ -237,7 +245,7 @@ var o;
     };
     (() => {
         e = n.Options.get();
-        r.onContentLoaded(() => a());
+        r.onContentLoaded(() => s());
         if (!t.defined(window.$rink)) {
             window.$rink = A;
         }
