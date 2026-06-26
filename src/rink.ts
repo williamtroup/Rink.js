@@ -12,7 +12,7 @@
 
 
 import {
-    AnchorTagsProcessed,
+    type AnchorTagsProcessed,
     type AnchorOptions,
     type ConfigurationOptions } from "./ts/type";
 
