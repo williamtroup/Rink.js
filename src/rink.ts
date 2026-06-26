@@ -123,16 +123,10 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
             _screenWidthAnchors[ screenSize.toString() ] = [];
         }
 
-        let originalTarget: string | null = anchorElement.getAttribute( "target" );
-
-        if ( !Is.definedString( originalTarget ) ) {
-            originalTarget = _configurationOptions.defaultTarget!;
-        }
-
         _screenWidthAnchors[ screenSize.toString() ].push( {
             anchorTag: anchorElement,
             newTarget: newTarget,
-            originalTarget: originalTarget,
+            originalTarget: anchorElement.getAttribute( "target" ),
         } as AnchorOptions );
 
         if ( _configurationOptions.removeAttributes ) {
@@ -212,7 +206,13 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
                         const anchorTag: AnchorOptions = anchorTags[ anchorTagIndex ];
 
                         if ( anchorTagsProcessed.anchorTags.indexOf( anchorTag.anchorTag ) === Value.notFound ) {
-                            anchorTag.anchorTag.setAttribute( "target", anchorTag.originalTarget! );
+                            let originalTarget: string | null = anchorTag.originalTarget!;
+
+                            if ( !Is.definedString( originalTarget ) ) {
+                                originalTarget = _configurationOptions.defaultTarget!;
+                            }
+
+                            anchorTag.anchorTag.setAttribute( "target", originalTarget );
                         }
                     }
                 }

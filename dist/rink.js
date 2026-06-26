@@ -150,21 +150,17 @@ var o;
             }
         }
     }
-    function u(n, r, o, s) {
-        if (!Object.prototype.hasOwnProperty.call(i, n.toString())) {
-            i[n.toString()] = [];
+    function u(t, n, r, o) {
+        if (!Object.prototype.hasOwnProperty.call(i, t.toString())) {
+            i[t.toString()] = [];
         }
-        let a = r.getAttribute("target");
-        if (!t.definedString(a)) {
-            a = e.defaultTarget;
-        }
-        i[n.toString()].push({
-            anchorTag: r,
-            newTarget: o,
-            originalTarget: a
+        i[t.toString()].push({
+            anchorTag: n,
+            newTarget: r,
+            originalTarget: n.getAttribute("target")
         });
         if (e.removeAttributes) {
-            r.removeAttribute(s);
+            n.removeAttribute(o);
         }
     }
     function d() {
@@ -204,19 +200,23 @@ var o;
         }
         return t;
     }
-    function g(t) {
-        const e = l();
-        const n = e.length;
-        for (let r = 0; r < n; r++) {
-            const n = e[r];
-            if (Object.prototype.hasOwnProperty.call(i, n)) {
-                if (t.screenWidths.indexOf(n) === -1) {
-                    const e = i[n];
-                    const r = e.length;
-                    for (let n = 0; n < r; n++) {
-                        const r = e[n];
-                        if (t.anchorTags.indexOf(r.anchorTag) === -1) {
-                            r.anchorTag.setAttribute("target", r.originalTarget);
+    function g(n) {
+        const r = l();
+        const o = r.length;
+        for (let s = 0; s < o; s++) {
+            const o = r[s];
+            if (Object.prototype.hasOwnProperty.call(i, o)) {
+                if (n.screenWidths.indexOf(o) === -1) {
+                    const r = i[o];
+                    const s = r.length;
+                    for (let o = 0; o < s; o++) {
+                        const i = r[o];
+                        if (n.anchorTags.indexOf(i.anchorTag) === -1) {
+                            let n = i.originalTarget;
+                            if (!t.definedString(n)) {
+                                n = e.defaultTarget;
+                            }
+                            i.anchorTag.setAttribute("target", n);
                         }
                     }
                 }
