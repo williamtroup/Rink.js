@@ -26,3 +26,7 @@ function stop() {
 function fetch() {
     $rink.fetch();
 }
+
+function refresh() {
+    $rink.refresh();
+}

@@ -54,6 +54,17 @@ export type PublicApi = {
      */
     fetch: () => PublicApi;
 
+    /**
+     * refresh().
+     * 
+     * Refreshes all the responsive link elements.
+     * 
+     * @public
+     * 
+     * @returns     {Object}                                                The Rink.js class instance.
+     */
+    refresh: () => PublicApi;
+
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

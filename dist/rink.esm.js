@@ -90,13 +90,13 @@ var o;
     let i = {};
     let a = 0;
     let s = true;
-    function c() {
+    function f() {
         let t = false;
         const e = document.getElementsByTagName("a");
         const n = [].slice.call(e);
         const r = n.length;
         for (let e = 0; e < r; e++) {
-            if (f(n[e])) {
+            if (c(n[e])) {
                 t = true;
             }
         }
@@ -107,13 +107,13 @@ var o;
             }
         }
     }
-    function f(e) {
+    function c(e) {
         let n = false;
         const r = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_SM);
         const i = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_MD);
         const a = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_LG);
         const s = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
-        const c = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
+        const f = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
         if (t.definedString(r)) {
             d(576, e, r, o.RINK_JS_ATTRIBUTE_NAME_SM);
             n = true;
@@ -130,8 +130,8 @@ var o;
             d(1200, e, s, o.RINK_JS_ATTRIBUTE_NAME_XL);
             n = true;
         }
-        if (t.definedString(c)) {
-            d(1400, e, c, o.RINK_JS_ATTRIBUTE_NAME_XXL);
+        if (t.definedString(f)) {
+            d(1400, e, f, o.RINK_JS_ATTRIBUTE_NAME_XXL);
             n = true;
         }
         u(e);
@@ -246,7 +246,13 @@ var o;
             if (!e.removeAttributes) {
                 i = {};
             }
-            c();
+            f();
+            return N;
+        },
+        refresh: function() {
+            if (s) {
+                T();
+            }
             return N;
         },
         setConfiguration: r => {
@@ -271,7 +277,7 @@ var o;
     (() => {
         e = n.Options.get();
         s = e.enabled;
-        r.onContentLoaded(() => c());
+        r.onContentLoaded(() => f());
         if (!t.defined(window.$rink)) {
             window.$rink = N;
         }
