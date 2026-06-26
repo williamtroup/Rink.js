@@ -156,7 +156,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
     }
 
     function updateAnchorTags() : void {
-        updateAnchorTagsNotProcessed( updateAnchorTagTargets() );
+        updateAnchorTagTargetsNotProcessed( updateAnchorTagTargets() );
     }
 
     function updateAnchorTagTargets() : AnchorTagsProcessed {
@@ -196,7 +196,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         return anchorTagsProcessed;
     }
 
-    function updateAnchorTagsNotProcessed( anchorTagsProcessed: AnchorTagsProcessed ) : void {
+    function updateAnchorTagTargetsNotProcessed( anchorTagsProcessed: AnchorTagsProcessed ) : void {
         const screenWidths: string[] = getSortedScreenWidths();
         const screenWidthsLength: number = screenWidths.length;
 
