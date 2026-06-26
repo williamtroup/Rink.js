@@ -93,14 +93,12 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
             added = true;
         }
 
-        if ( !added ) {
-            findCustomSizeAnchor( anchorElement );
-        }
+        findCustomSizeAttributes( anchorElement );
 
         return added;
     }
 
-    function findCustomSizeAnchor( anchorElement: HTMLAnchorElement ) : void {
+    function findCustomSizeAttributes( anchorElement: HTMLAnchorElement ) : void {
         const anchorTagAttributes: NamedNodeMap = anchorElement.attributes;
         const anchorTagAttributesLength: number = anchorTagAttributes.length;
 
@@ -112,7 +110,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
                 const attributeWidth: string = attributeNameParts[ attributeNameParts.length - 1 ];
                 const anchorTarget: string = anchorTagAttribute.value;
 
-                if ( Is.definedString( anchorTarget ) ) {
+                if ( Is.definedNumber( parseInt( attributeWidth ) ) && Is.definedString( anchorTarget ) ) {
                     addAnchorToScreenWidthAnchors( parseInt( attributeWidth ), anchorElement, anchorTarget, anchorTagAttribute.name );
                 }
             }
@@ -162,8 +160,12 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
 
     function updateAnchorTagTargets() : string[] {
         const screenWidthsProcessed: string[] = [];
+        const screenWidths: string[] = getSortedScreenWidths();
+        const screenWidthsLength: number = screenWidths.length;
 
-        for ( const screenWidth in _screenWidthAnchors ) {
+        for ( let screenWidthIndex = 0; screenWidthIndex < screenWidthsLength; screenWidthIndex++ ) {
+            const screenWidth: string = screenWidths[ screenWidthIndex ];
+
             if ( Object.prototype.hasOwnProperty.call( _screenWidthAnchors, screenWidth ) ) {
                 const windowWidth: number = window.innerWidth;
                 const windowCheckWidth: number = parseInt( screenWidth );
@@ -187,7 +189,12 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
     }
 
     function updateAnchorTagsNotProcessed( screenWidthsProcessed: string[] ) : void {
-        for ( const screenWidth in _screenWidthAnchors ) {
+        const screenWidths: string[] = getSortedScreenWidths();
+        const screenWidthsLength: number = screenWidths.length;
+
+        for ( let screenWidthIndex = 0; screenWidthIndex < screenWidthsLength; screenWidthIndex++ ) {
+            const screenWidth: string = screenWidths[ screenWidthIndex ];
+
             if ( Object.prototype.hasOwnProperty.call( _screenWidthAnchors, screenWidth ) ) {
                 if ( screenWidthsProcessed.indexOf( screenWidth ) === Value.notFound ) {
                     const anchorTags: AnchorOptions[] = _screenWidthAnchors[ screenWidth ];
@@ -201,6 +208,12 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
                 }
             }
         }
+    }
+
+    function getSortedScreenWidths() : string[] {
+        return Object.keys( _screenWidthAnchors ).sort( ( optionA: string, optionB: string ) : number => 
+            optionA.toLowerCase().localeCompare( optionB.toLowerCase() )
+        );
     }
 
 
