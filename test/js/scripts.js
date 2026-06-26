@@ -5,7 +5,7 @@
     } );
 } )();
 
-function setupConfiguration() {
+function setConfiguration() {
     $rink.setConfiguration( {
         safeMode: false
     } );
