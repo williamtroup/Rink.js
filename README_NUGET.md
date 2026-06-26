@@ -86,7 +86,7 @@ Configuration options allow you to customize how Rink.js will function.  You can
 ```markdown
 <script> 
     $rink.setConfiguration( {
-        safeMode: false
+        defaultTarget: "self"
     } );
 </script>
 ```
