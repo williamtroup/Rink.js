@@ -55,6 +55,7 @@ var n;
             n.defaultTarget = e.getString(n.defaultTarget, "_self");
             n.removeAttributes = e.getBoolean(n.removeAttributes, true);
             n.enabled = e.getBoolean(n.enabled, true);
+            n.observationMode = e.getBoolean(n.observationMode, true);
             return n;
         }
         t.get = n;
@@ -85,59 +86,89 @@ var o;
     t.RINK_JS_ATTRIBUTE_NAME_CUSTOM = "data-rink-js";
 })(o || (o = {}));
 
+var i;
+
+(e => {
+    let n = null;
+    function r(e, r) {
+        if (e.observationMode) {
+            if (!t.defined(n)) {
+                n = new MutationObserver(() => r());
+                const t = {
+                    attributes: true,
+                    childList: true,
+                    subtree: true
+                };
+                n.observe(document.body, t);
+            }
+        } else {
+            n.disconnect();
+            n = null;
+        }
+    }
+    e.setup = r;
+    function o(e) {
+        if (e.observationMode && t.defined(n)) {
+            n.disconnect();
+            n = null;
+        }
+    }
+    e.destroy = o;
+})(i || (i = {}));
+
 (() => {
     let e = {};
-    let i = {};
+    let s = {};
     let a = 0;
-    let s = true;
+    let c = true;
     function f() {
         let t = false;
         const e = document.getElementsByTagName("a");
         const n = [].slice.call(e);
         const r = n.length;
         for (let e = 0; e < r; e++) {
-            if (c(n[e])) {
+            if (u(n[e])) {
                 t = true;
             }
         }
         if (t) {
-            window.addEventListener("resize", l);
-            if (s) {
-                T();
+            window.addEventListener("resize", T);
+            if (c) {
+                g();
             }
         }
     }
-    function c(e) {
+    function u(e) {
         let n = false;
         const r = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_SM);
         const i = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_MD);
-        const a = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_LG);
-        const s = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
-        const f = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
+        const s = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_LG);
+        const a = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
+        const c = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
         if (t.definedString(r)) {
-            d(576, e, r, o.RINK_JS_ATTRIBUTE_NAME_SM);
+            l(576, e, r, o.RINK_JS_ATTRIBUTE_NAME_SM);
             n = true;
         }
         if (t.definedString(i)) {
-            d(768, e, i, o.RINK_JS_ATTRIBUTE_NAME_MD);
-            n = true;
-        }
-        if (t.definedString(a)) {
-            d(992, e, a, o.RINK_JS_ATTRIBUTE_NAME_LG);
+            l(768, e, i, o.RINK_JS_ATTRIBUTE_NAME_MD);
             n = true;
         }
         if (t.definedString(s)) {
-            d(1200, e, s, o.RINK_JS_ATTRIBUTE_NAME_XL);
+            l(992, e, s, o.RINK_JS_ATTRIBUTE_NAME_LG);
             n = true;
         }
-        if (t.definedString(f)) {
-            d(1400, e, f, o.RINK_JS_ATTRIBUTE_NAME_XXL);
+        if (t.definedString(a)) {
+            l(1200, e, a, o.RINK_JS_ATTRIBUTE_NAME_XL);
             n = true;
         }
-        u(e);
+        if (t.definedString(c)) {
+            l(1400, e, c, o.RINK_JS_ATTRIBUTE_NAME_XXL);
+            n = true;
+        }
+        d(e);
         return n;
     }
-    function u(e) {
+    function d(e) {
         const n = e.attributes;
         const r = n.length;
         for (let i = 0; i < r; i++) {
@@ -147,16 +178,16 @@ var o;
                 const o = n[n.length - 1];
                 const i = r.value;
                 if (t.definedNumber(parseInt(o)) && t.definedString(i)) {
-                    d(parseInt(o), e, i, r.name);
+                    l(parseInt(o), e, i, r.name);
                 }
             }
         }
     }
-    function d(t, n, r, o) {
-        if (!Object.prototype.hasOwnProperty.call(i, t.toString())) {
-            i[t.toString()] = [];
+    function l(t, n, r, o) {
+        if (!Object.prototype.hasOwnProperty.call(s, t.toString())) {
+            s[t.toString()] = [];
         }
-        i[t.toString()].push({
+        s[t.toString()].push({
             anchorTag: n,
             newTarget: r,
             originalTarget: n.getAttribute("target")
@@ -165,31 +196,31 @@ var o;
             n.removeAttribute(o);
         }
     }
-    function l() {
-        if (s) {
+    function T() {
+        if (c) {
             if (a !== 0) {
                 clearTimeout(a);
             }
-            a = setTimeout(() => T(), e.responsiveDelay);
+            a = setTimeout(() => g(), e.responsiveDelay);
         }
     }
-    function T() {
-        _(g());
-    }
     function g() {
+        A(_());
+    }
+    function _() {
         const t = {
             screenWidths: [],
             anchorTags: []
         };
-        const e = A();
+        const e = b();
         const n = e.length;
         for (let r = 0; r < n; r++) {
             const n = e[r];
-            if (Object.prototype.hasOwnProperty.call(i, n)) {
+            if (Object.prototype.hasOwnProperty.call(s, n)) {
                 const e = window.innerWidth;
                 const r = parseInt(n);
                 if (e >= r) {
-                    const e = i[n];
+                    const e = s[n];
                     const r = e.length;
                     t.screenWidths.push(n);
                     for (let n = 0; n < r; n++) {
@@ -204,16 +235,16 @@ var o;
         }
         return t;
     }
-    function _(n) {
-        const r = A();
+    function A(n) {
+        const r = b();
         const o = r.length;
-        for (let a = 0; a < o; a++) {
-            const o = r[a];
-            if (Object.prototype.hasOwnProperty.call(i, o)) {
+        for (let i = 0; i < o; i++) {
+            const o = r[i];
+            if (Object.prototype.hasOwnProperty.call(s, o)) {
                 if (n.screenWidths.indexOf(o) === -1) {
-                    const r = i[o];
-                    const a = r.length;
-                    for (let o = 0; o < a; o++) {
+                    const r = s[o];
+                    const i = r.length;
+                    for (let o = 0; o < i; o++) {
                         const i = r[o];
                         if (n.anchorTags.indexOf(i.anchorTag) === -1) {
                             let n = i.originalTarget;
@@ -227,31 +258,31 @@ var o;
             }
         }
     }
-    function A() {
-        return Object.keys(i).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
+    function b() {
+        return Object.keys(s).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
     }
     const N = {
         start: function() {
-            if (!s) {
-                s = true;
-                T();
+            if (!c) {
+                c = true;
+                g();
             }
             return N;
         },
         stop: function() {
-            s = false;
+            c = false;
             return N;
         },
         fetch: function() {
             if (!e.removeAttributes) {
-                i = {};
+                s = {};
             }
             f();
             return N;
         },
         refresh: function() {
-            if (s) {
-                T();
+            if (c) {
+                g();
             }
             return N;
         },
@@ -267,7 +298,8 @@ var o;
                 }
                 if (o) {
                     e = n.Options.get(t);
-                    s = e.enabled;
+                    c = e.enabled;
+                    i.setup(e, () => f());
                 }
             }
             return N;
@@ -276,8 +308,11 @@ var o;
     };
     (() => {
         e = n.Options.get();
-        s = e.enabled;
-        r.onContentLoaded(() => f());
+        c = e.enabled;
+        r.onContentLoaded(() => {
+            f();
+            i.setup(e, () => f());
+        });
         if (!t.defined(window.$rink)) {
             window.$rink = N;
         }

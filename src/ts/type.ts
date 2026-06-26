@@ -16,6 +16,7 @@ export type ConfigurationOptions = {
     defaultTarget?: string;
     removeAttributes?: boolean;
     enabled?: boolean;
+    observationMode?: boolean;
 };
 
 export type AnchorOptions = {

@@ -23,6 +23,7 @@ export namespace Configuration {
             configurationOptions.defaultTarget = Default.getString( configurationOptions.defaultTarget, "_self" );
             configurationOptions.removeAttributes = Default.getBoolean( configurationOptions.removeAttributes, true );
             configurationOptions.enabled = Default.getBoolean( configurationOptions.enabled, true );
+            configurationOptions.observationMode = Default.getBoolean( configurationOptions.observationMode, true );
 
             return configurationOptions;
         }

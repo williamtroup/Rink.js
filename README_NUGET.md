@@ -17,6 +17,8 @@
 - 💻 Full API available via public functions.
 - ⭐ Default sizes consistent with Bootstrap: sm, md, lg, xl, xxl.
 - 🌈 Set your own custom size attributes!
+- 🎥 Toggling responsiveness on/off support.
+- 📃 Auto fetch support (when HTML is added via 3rd party libraries).
 
 
 ## What browsers are supported?
