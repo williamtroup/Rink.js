@@ -7,7 +7,7 @@
 
 function setConfiguration() {
     $rink.setConfiguration( {
-        safeMode: false
+        responsiveDelay: 500,
     } );
 }
 
