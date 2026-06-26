@@ -15,6 +15,8 @@
 - 😏 Zero-dependencies and extremely lightweight!
 - 🦾 Written in TypeScript, allowing greater support for React, Angular, and other libraries!
 - 💻 Full API available via public functions.
+- ⭐ Default sizes consistent with Bootstrap: sm, md, lg, xl, xxl.
+- 🌈 Set your own custom size attributes!
 
 
 ## What browsers are supported?
@@ -63,7 +65,7 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 <a href="https://www.william-troup.com/" data-rink-js-lg="_blank" target="_self">Test Link LG</a>
 <a href="https://www.william-troup.com/" data-rink-js-xl="_blank" target="_self">Test Link XL</a>
 <a href="https://www.william-troup.com/" data-rink-js-xxl="_blank" target="_self">Test Link XXL</a>
-<a href="https://www.william-troup.com/" data-rink-js-800="_blank" target="_self">Test Link (800)</a>
+<a href="https://www.william-troup.com/" data-rink-js-800="_blank" data-rink-js-lg="_parent">Test Link (800, MD)</a>
 ```
 
 
