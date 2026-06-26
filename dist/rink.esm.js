@@ -54,6 +54,7 @@ var n;
             n.responsiveDelay = e.getNumber(n.responsiveDelay, 250);
             n.defaultTarget = e.getString(n.defaultTarget, "_self");
             n.removeAttributes = e.getBoolean(n.removeAttributes, true);
+            n.enabled = e.getBoolean(n.enabled, true);
             return n;
         }
         t.get = n;
@@ -88,22 +89,25 @@ var o;
     let e = {};
     const i = {};
     let a = 0;
-    function s() {
+    let s = true;
+    function c() {
         let t = false;
         const e = document.getElementsByTagName("a");
         const n = [].slice.call(e);
         const r = n.length;
         for (let e = 0; e < r; e++) {
-            if (c(n[e])) {
+            if (f(n[e])) {
                 t = true;
             }
         }
         if (t) {
-            window.addEventListener("resize", d);
-            T();
+            window.addEventListener("resize", T);
+            if (s) {
+                l();
+            }
         }
     }
-    function c(e) {
+    function f(e) {
         let n = false;
         const r = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_SM);
         const i = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_MD);
@@ -111,29 +115,29 @@ var o;
         const s = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
         const c = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
         if (t.definedString(r)) {
-            u(576, e, r, o.RINK_JS_ATTRIBUTE_NAME_SM);
+            d(576, e, r, o.RINK_JS_ATTRIBUTE_NAME_SM);
             n = true;
         }
         if (t.definedString(i)) {
-            u(768, e, i, o.RINK_JS_ATTRIBUTE_NAME_MD);
+            d(768, e, i, o.RINK_JS_ATTRIBUTE_NAME_MD);
             n = true;
         }
         if (t.definedString(a)) {
-            u(992, e, a, o.RINK_JS_ATTRIBUTE_NAME_LG);
+            d(992, e, a, o.RINK_JS_ATTRIBUTE_NAME_LG);
             n = true;
         }
         if (t.definedString(s)) {
-            u(1200, e, s, o.RINK_JS_ATTRIBUTE_NAME_XL);
+            d(1200, e, s, o.RINK_JS_ATTRIBUTE_NAME_XL);
             n = true;
         }
         if (t.definedString(c)) {
-            u(1400, e, c, o.RINK_JS_ATTRIBUTE_NAME_XXL);
+            d(1400, e, c, o.RINK_JS_ATTRIBUTE_NAME_XXL);
             n = true;
         }
-        f(e);
+        u(e);
         return n;
     }
-    function f(e) {
+    function u(e) {
         const n = e.attributes;
         const r = n.length;
         for (let i = 0; i < r; i++) {
@@ -143,12 +147,12 @@ var o;
                 const o = n[n.length - 1];
                 const i = r.value;
                 if (t.definedNumber(parseInt(o)) && t.definedString(i)) {
-                    u(parseInt(o), e, i, r.name);
+                    d(parseInt(o), e, i, r.name);
                 }
             }
         }
     }
-    function u(t, n, r, o) {
+    function d(t, n, r, o) {
         if (!Object.prototype.hasOwnProperty.call(i, t.toString())) {
             i[t.toString()] = [];
         }
@@ -161,21 +165,23 @@ var o;
             n.removeAttribute(o);
         }
     }
-    function d() {
-        if (a !== 0) {
-            clearTimeout(a);
-        }
-        a = setTimeout(() => T(), e.responsiveDelay);
-    }
     function T() {
-        g(_());
+        if (s) {
+            if (a !== 0) {
+                clearTimeout(a);
+            }
+            a = setTimeout(() => l(), e.responsiveDelay);
+        }
     }
-    function _() {
+    function l() {
+        _(g());
+    }
+    function g() {
         const t = {
             screenWidths: [],
             anchorTags: []
         };
-        const e = l();
+        const e = A();
         const n = e.length;
         for (let r = 0; r < n; r++) {
             const n = e[r];
@@ -198,8 +204,8 @@ var o;
         }
         return t;
     }
-    function g(n) {
-        const r = l();
+    function _(n) {
+        const r = A();
         const o = r.length;
         for (let a = 0; a < o; a++) {
             const o = r[a];
@@ -221,10 +227,19 @@ var o;
             }
         }
     }
-    function l() {
+    function A() {
         return Object.keys(i).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
     }
-    const A = {
+    const N = {
+        start: function() {
+            s = true;
+            l();
+            return N;
+        },
+        stop: function() {
+            s = false;
+            return N;
+        },
         setConfiguration: r => {
             if (t.definedObject(r)) {
                 const t = e;
@@ -237,17 +252,19 @@ var o;
                 }
                 if (o) {
                     e = n.Options.get(t);
+                    s = e.enabled;
                 }
             }
-            return A;
+            return N;
         },
         getVersion: () => "1.2.0"
     };
     (() => {
         e = n.Options.get();
-        r.onContentLoaded(() => s());
+        s = e.enabled;
+        r.onContentLoaded(() => c());
         if (!t.defined(window.$rink)) {
-            window.$rink = A;
+            window.$rink = N;
         }
     })();
 })();//# sourceMappingURL=rink.esm.js.map

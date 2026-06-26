@@ -32,6 +32,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
     // Variables: Anchors
     const _screenWidthAnchors: Record<string, AnchorOptions[]> = {};
     let _screenWidthChangeTimer: number = 0;
+    let _enabled: boolean = true;
     
 
     /*
@@ -56,7 +57,9 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         if ( anchorTagsFound ) {
             window.addEventListener( "resize", onWindowResize );
 
-            updateAnchorTags();
+            if ( _enabled ) {
+                updateAnchorTags();
+            }
         }
     }
 
@@ -142,11 +145,13 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
      */
 
     function onWindowResize() : void {
-        if ( _screenWidthChangeTimer !== 0 ) {
-            clearTimeout( _screenWidthChangeTimer );
-        }
+        if ( _enabled ) {
+            if ( _screenWidthChangeTimer !== 0 ) {
+                clearTimeout( _screenWidthChangeTimer );
+            }
 
-        _screenWidthChangeTimer = setTimeout( () => updateAnchorTags(), _configurationOptions.responsiveDelay! );
+            _screenWidthChangeTimer = setTimeout( () => updateAnchorTags(), _configurationOptions.responsiveDelay! );
+        }
     }
 
     function updateAnchorTags() : void {
@@ -235,6 +240,27 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
 
     const _public: PublicApi = {
         /*
+        * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        * Public API Functions:  Control
+        * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        */
+
+        start: function () : PublicApi {
+            _enabled = true;
+
+            updateAnchorTags();
+
+            return _public;
+        },
+        
+        stop: function () : PublicApi {
+            _enabled = false;
+
+            return _public;
+        },
+
+
+        /*
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          * Public API Functions:  Configuration
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -244,19 +270,20 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
             if ( Is.definedObject( configurationOptions ) ) {
                 const existingConfigurationOptions: ConfigurationOptions = _configurationOptions;
                 let configurationOptionsHaveChanged: boolean = false;
-            
+
                 for ( const propertyName in configurationOptions ) {
                     if ( Object.prototype.hasOwnProperty.call( configurationOptions, propertyName ) && Object.prototype.hasOwnProperty.call( existingConfigurationOptions, propertyName ) && existingConfigurationOptions[ propertyName ] !== configurationOptions[ propertyName ] ) {
                         existingConfigurationOptions[ propertyName ] = configurationOptions[ propertyName ];
                         configurationOptionsHaveChanged = true;
                     }
                 }
-        
+
                 if ( configurationOptionsHaveChanged ) {
                     _configurationOptions = Configuration.Options.get( existingConfigurationOptions );
+                    _enabled = _configurationOptions.enabled!;
                 }
             }
-    
+
             return _public;
         },
 
@@ -281,6 +308,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
 
     ( () : void => {
         _configurationOptions = Configuration.Options.get();
+        _enabled = _configurationOptions.enabled!;
         
         DocumentElement.onContentLoaded( () : void => render() );
 

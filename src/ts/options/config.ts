@@ -22,6 +22,7 @@ export namespace Configuration {
             configurationOptions.responsiveDelay = Default.getNumber( configurationOptions.responsiveDelay, 250 );
             configurationOptions.defaultTarget = Default.getString( configurationOptions.defaultTarget, "_self" );
             configurationOptions.removeAttributes = Default.getBoolean( configurationOptions.removeAttributes, true );
+            configurationOptions.enabled = Default.getBoolean( configurationOptions.enabled, true );
 
             return configurationOptions;
         }

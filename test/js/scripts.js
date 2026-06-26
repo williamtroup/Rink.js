@@ -14,3 +14,11 @@ function setupConfiguration() {
 function getVersion() {
     console.log( $rink.getVersion() );
 }
+
+function start() {
+    $rink.start();
+}
+
+function stop() {
+    $rink.stop();
+}
