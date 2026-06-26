@@ -74,7 +74,7 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 <br>
 
 
-### 3. Getting/Rendering JSON:
+### 3. Setup Anchor Tags:
 
 ```markdown
 <a href="https://www.william-troup.com/" data-rink-js-sm="_blank" target="_self">Test Link SM</a>
