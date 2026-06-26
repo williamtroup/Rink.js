@@ -1,8 +1,8 @@
-# Rink.js v1.0.0
+# Rink.js v1.1.0
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Rink.js%2C%20a%20free%20JavaScript%json%20converter&url=https://github.com/williamtroup/Rink.js&hashtags=javascript,json,html,converter)
-[![npm](https://img.shields.io/badge/npmjs-v1.0.0-blue)](https://www.npmjs.com/package/rink.js)
-[![nuget](https://img.shields.io/badge/nuget-v1.0.0-purple)](https://www.nuget.org/packages/Rink.js/)
+[![npm](https://img.shields.io/badge/npmjs-v1.1.0-blue)](https://www.npmjs.com/package/rink.js)
+[![nuget](https://img.shields.io/badge/nuget-v1.1.0-purple)](https://www.nuget.org/packages/Rink.js/)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/williamtroup/Rink.js/blob/main/LICENSE.txt)
 [![discussions Welcome](https://img.shields.io/badge/discussions-Welcome-red)](https://github.com/williamtroup/Rink.js/discussions)
 [![coded by William Troup](https://img.shields.io/badge/coded_by-William_Troup-yellow)](https://william-troup.com/)
@@ -15,6 +15,8 @@
 - 😏 Zero-dependencies and extremely lightweight!
 - 🦾 Written in TypeScript, allowing greater support for React, Angular, and other libraries!
 - 💻 Full API available via public functions.
+- ⭐ Default sizes consistent with Bootstrap: sm, md, lg, xl, xxl.
+- 🌈 Set your own custom size attributes!
 
 
 ## What browsers are supported?
@@ -33,7 +35,7 @@ npm install rink.js
 Or, you can also use the following CDN links:
 
 ```markdown
-https://cdn.jsdelivr.net/gh/williamtroup/Rink.js@1.0.0/dist/rink.min.js
+https://cdn.jsdelivr.net/gh/williamtroup/Rink.js@1.1.0/dist/rink.min.js
 ```
 
 
@@ -63,7 +65,7 @@ Make sure you include the "DOCTYPE html" tag at the top of your HTML, as follows
 <a href="https://www.william-troup.com/" data-rink-js-lg="_blank" target="_self">Test Link LG</a>
 <a href="https://www.william-troup.com/" data-rink-js-xl="_blank" target="_self">Test Link XL</a>
 <a href="https://www.william-troup.com/" data-rink-js-xxl="_blank" target="_self">Test Link XXL</a>
-<a href="https://www.william-troup.com/" data-rink-js-800="_blank" target="_self">Test Link (800)</a>
+<a href="https://www.william-troup.com/" data-rink-js-800="_blank" data-rink-js-lg="_parent">Test Link (800, MD)</a>
 ```
 
 

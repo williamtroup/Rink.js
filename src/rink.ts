@@ -4,7 +4,7 @@
  * A JavaScript library for generating responsive HTML link targets.
  * 
  * @file        rink.ts
- * @version     v1.0.0
+ * @version     v1.1.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2026
@@ -12,6 +12,7 @@
 
 
 import {
+    type AnchorTagsProcessed,
     type AnchorOptions,
     type ConfigurationOptions } from "./ts/type";
 
@@ -40,19 +41,15 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
      */
 
     function render() : void {
-        const tagTypes: string[] = [ "a" ];
-        const tagTypesLength: number = tagTypes.length;
         let anchorTagsFound: boolean = false;
 
-        for ( let tagTypeIndex: number = 0; tagTypeIndex < tagTypesLength; tagTypeIndex++ ) {
-            const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( tagTypes[ tagTypeIndex ] );
-            const elements: HTMLElement[] = [].slice.call( domElements );
-            const elementsLength: number = elements.length;
+        const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( "a" );
+        const elements: HTMLElement[] = [].slice.call( domElements );
+        const elementsLength: number = elements.length;
 
-            for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
-                if ( renderElement( elements[ elementIndex ] as HTMLAnchorElement ) ) {
-                    anchorTagsFound = true;
-                }
+        for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
+            if ( renderElement( elements[ elementIndex ] as HTMLAnchorElement ) ) {
+                anchorTagsFound = true;
             }
         }
 
@@ -73,38 +70,36 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         const attributeXxlData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_XXL )!;
 
         if ( Is.definedString( attributeSmData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.sm, anchorElement, attributeSmData );
+            addAnchorToScreenWidthAnchors( ScreenSize.sm, anchorElement, attributeSmData, Constant.RINK_JS_ATTRIBUTE_NAME_SM );
             added = true;
         }
 
         if ( Is.definedString( attributeMdData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.md, anchorElement, attributeMdData );
+            addAnchorToScreenWidthAnchors( ScreenSize.md, anchorElement, attributeMdData, Constant.RINK_JS_ATTRIBUTE_NAME_MD );
             added = true;
         }
 
         if ( Is.definedString( attributeLgData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.lg, anchorElement, attributeLgData );
+            addAnchorToScreenWidthAnchors( ScreenSize.lg, anchorElement, attributeLgData, Constant.RINK_JS_ATTRIBUTE_NAME_LG );
             added = true;
         }
 
         if ( Is.definedString( attributeXlData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.xl, anchorElement, attributeXlData );
+            addAnchorToScreenWidthAnchors( ScreenSize.xl, anchorElement, attributeXlData, Constant.RINK_JS_ATTRIBUTE_NAME_XL );
             added = true;
         }
 
         if ( Is.definedString( attributeXxlData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.xxl, anchorElement, attributeXxlData );
+            addAnchorToScreenWidthAnchors( ScreenSize.xxl, anchorElement, attributeXxlData, Constant.RINK_JS_ATTRIBUTE_NAME_XXL );
             added = true;
         }
 
-        if ( !added ) {
-            findCustomSizeAnchor( anchorElement );
-        }
+        findCustomSizeAttributes( anchorElement );
 
         return added;
     }
 
-    function findCustomSizeAnchor( anchorElement: HTMLAnchorElement ) : void {
+    function findCustomSizeAttributes( anchorElement: HTMLAnchorElement ) : void {
         const anchorTagAttributes: NamedNodeMap = anchorElement.attributes;
         const anchorTagAttributesLength: number = anchorTagAttributes.length;
 
@@ -116,23 +111,33 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
                 const attributeWidth: string = attributeNameParts[ attributeNameParts.length - 1 ];
                 const anchorTarget: string = anchorTagAttribute.value;
 
-                if ( Is.definedString( anchorTarget ) ) {
-                    addAnchorToScreenWidthAnchors( parseInt( attributeWidth ), anchorElement, anchorTarget );
+                if ( Is.definedNumber( parseInt( attributeWidth ) ) && Is.definedString( anchorTarget ) ) {
+                    addAnchorToScreenWidthAnchors( parseInt( attributeWidth ), anchorElement, anchorTarget, anchorTagAttribute.name );
                 }
             }
         }
     }
 
-    function addAnchorToScreenWidthAnchors( screenSize: number, anchorElement: HTMLAnchorElement, newTarget: string ) : void {
+    function addAnchorToScreenWidthAnchors( screenSize: number, anchorElement: HTMLAnchorElement, newTarget: string, attributeName: string ) : void {
         if ( !Object.prototype.hasOwnProperty.call( _screenWidthAnchors, screenSize.toString() ) ) {
             _screenWidthAnchors[ screenSize.toString() ] = [];
+        }
+
+        let originalTarget: string | null = anchorElement.getAttribute( "target" );
+
+        if ( !Is.definedString( originalTarget ) ) {
+            originalTarget = _configurationOptions.defaultTarget!;
         }
 
         _screenWidthAnchors[ screenSize.toString() ].push( {
             anchorTag: anchorElement,
             newTarget: newTarget,
-            originalTarget: anchorElement.getAttribute( "target" )!
+            originalTarget: originalTarget,
         } as AnchorOptions );
+
+        if ( _configurationOptions.removeAttributes ) {
+            anchorElement.removeAttribute( attributeName );
+        }
     }
 
 
@@ -143,58 +148,82 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
      */
 
     function onWindowResize() : void {
-        if (_screenWidthChangeTimer !== 0) {
-            clearTimeout(_screenWidthChangeTimer);
+        if ( _screenWidthChangeTimer !== 0 ) {
+            clearTimeout( _screenWidthChangeTimer );
         }
 
-        _screenWidthChangeTimer = setTimeout( () => updateAnchorTags() , _configurationOptions.responsiveDelay! );
+        _screenWidthChangeTimer = setTimeout( () => updateAnchorTags(), _configurationOptions.responsiveDelay! );
     }
 
-    function updateAnchorTags() {
-        updateAnchorTagsNotProcessed(updateAnchorTagTargets())
+    function updateAnchorTags() : void {
+        updateAnchorTagTargetsNotProcessed( updateAnchorTagTargets() );
     }
 
-    function updateAnchorTagTargets() : string[] {
-        const screenWidthsProcessed: string[] = [];
+    function updateAnchorTagTargets() : AnchorTagsProcessed {
+        const anchorTagsProcessed: AnchorTagsProcessed = {
+            screenWidths: [],
+            anchorTags: [],
+        };
 
-        for ( const screenWidth in _screenWidthAnchors ) {
+        const screenWidths: string[] = getSortedScreenWidths();
+        const screenWidthsLength: number = screenWidths.length;
+
+        for ( let screenWidthIndex = 0; screenWidthIndex < screenWidthsLength; screenWidthIndex++ ) {
+            const screenWidth: string = screenWidths[ screenWidthIndex ];
+
             if ( Object.prototype.hasOwnProperty.call( _screenWidthAnchors, screenWidth ) ) {
                 const windowWidth: number = window.innerWidth;
-                const windowCheckWidth: number = parseInt(screenWidth);
+                const windowCheckWidth: number = parseInt( screenWidth );
 
                 if ( windowWidth >= windowCheckWidth ) {
                     const anchorTags: AnchorOptions[] = _screenWidthAnchors[ screenWidth ];
                     const anchorTagsLength: number = anchorTags.length;
 
-                    screenWidthsProcessed.push( screenWidth );
+                    anchorTagsProcessed.screenWidths.push( screenWidth );
 
                     for ( let anchorTagIndex = 0; anchorTagIndex < anchorTagsLength; anchorTagIndex++ ) {
                         const anchorTag: AnchorOptions = anchorTags[ anchorTagIndex ];
 
-                        anchorTag.anchorTag.setAttribute( "target", anchorTag.newTarget! );
+                        if ( anchorTagsProcessed.anchorTags.indexOf( anchorTag.anchorTag ) === Value.notFound ) {
+                            anchorTagsProcessed.anchorTags.push( anchorTag.anchorTag );
+                            anchorTag.anchorTag.setAttribute( "target", anchorTag.newTarget! );
+                        }
                     }
                 }
             }
         }
 
-        return screenWidthsProcessed;
+        return anchorTagsProcessed;
     }
 
-    function updateAnchorTagsNotProcessed( screenWidthsProcessed: string[] ) : void {
-        for ( const screenWidth in _screenWidthAnchors ) {
+    function updateAnchorTagTargetsNotProcessed( anchorTagsProcessed: AnchorTagsProcessed ) : void {
+        const screenWidths: string[] = getSortedScreenWidths();
+        const screenWidthsLength: number = screenWidths.length;
+
+        for ( let screenWidthIndex = 0; screenWidthIndex < screenWidthsLength; screenWidthIndex++ ) {
+            const screenWidth: string = screenWidths[ screenWidthIndex ];
+
             if ( Object.prototype.hasOwnProperty.call( _screenWidthAnchors, screenWidth ) ) {
-                if ( screenWidthsProcessed.indexOf( screenWidth ) === Value.notFound ) {
+                if ( anchorTagsProcessed.screenWidths.indexOf( screenWidth ) === Value.notFound ) {
                     const anchorTags: AnchorOptions[] = _screenWidthAnchors[ screenWidth ];
                     const anchorTagsLength: number = anchorTags.length;
 
                     for ( let anchorTagIndex = 0; anchorTagIndex < anchorTagsLength; anchorTagIndex++ ) {
                         const anchorTag: AnchorOptions = anchorTags[ anchorTagIndex ];
 
-                        anchorTag.anchorTag.setAttribute( "target", anchorTag.originalTarget! );
+                        if ( anchorTagsProcessed.anchorTags.indexOf( anchorTag.anchorTag ) === Value.notFound ) {
+                            anchorTag.anchorTag.setAttribute( "target", anchorTag.originalTarget! );
+                        }
                     }
                 }
             }
         }
+    }
+
+    function getSortedScreenWidths() : string[] {
+        return Object.keys( _screenWidthAnchors ).sort( ( optionA: string, optionB: string ) : number => 
+            optionB.toLowerCase().localeCompare( optionA.toLowerCase() )
+        );
     }
 
 
@@ -239,7 +268,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
          */
 
         getVersion: () : string => {
-            return "1.0.0";
+            return "1.1.0";
         }
     };
 

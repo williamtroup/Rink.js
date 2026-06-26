@@ -2,7 +2,7 @@
   "name": "rink.js",
   "title": "Rink.js",
   "description": "A JavaScript library for generating responsive HTML link targets.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "homepage": "https://github.com/williamtroup/Rink.js",
   "author": {
     "name": "Bunoon"
@@ -30,6 +30,7 @@
   "main": "dist/rink.js",
   "types": "dist/rink.d.ts",
   "scripts": {
+    "build-all-verify-and-fix": "npx eslint '**/*.ts' --fix && npm run build-all",
     "build-all-verify": "npx eslint '**/*.ts' && npm run build-all",
     "build-all": "npm run build && npm run build-minimized",
     "build": "tsup --config tsup.build.config.ts && tsup --config tsup.build.esm.config.ts",

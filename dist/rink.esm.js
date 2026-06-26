@@ -13,10 +13,14 @@ var t;
         return e(t) && typeof t === "string";
     }
     t.definedString = r;
-    function i(t) {
+    function o(t) {
         return e(t) && typeof t === "number";
     }
-    t.definedNumber = i;
+    t.definedNumber = o;
+    function i(t) {
+        return e(t) && typeof t === "boolean";
+    }
+    t.definedBoolean = i;
 })(t || (t = {}));
 
 var e;
@@ -30,10 +34,14 @@ var e;
         return t.definedNumber(e) ? e : n;
     }
     e.getNumber = r;
-    function i(e, n) {
+    function o(e, n) {
         return t.definedObject(e) ? e : n;
     }
-    e.getObject = i;
+    e.getObject = o;
+    function i(e, n) {
+        return t.definedBoolean(e) ? e : n;
+    }
+    e.getBoolean = i;
 })(e || (e = {}));
 
 var n;
@@ -44,6 +52,8 @@ var n;
         function n(t = null) {
             const n = e.getObject(t, {});
             n.responsiveDelay = e.getNumber(n.responsiveDelay, 250);
+            n.defaultTarget = e.getString(n.defaultTarget, "_self");
+            n.removeAttributes = e.getBoolean(n.removeAttributes, true);
             return n;
         }
         t.get = n;
@@ -63,7 +73,7 @@ var r;
     t.onContentLoaded = e;
 })(r || (r = {}));
 
-var i;
+var o;
 
 (t => {
     t.RINK_JS_ATTRIBUTE_NAME_SM = "data-rink-js-sm";
@@ -72,154 +82,172 @@ var i;
     t.RINK_JS_ATTRIBUTE_NAME_XL = "data-rink-js-xl";
     t.RINK_JS_ATTRIBUTE_NAME_XXL = "data-rink-js-xxl";
     t.RINK_JS_ATTRIBUTE_NAME_CUSTOM = "data-rink-js";
-})(i || (i = {}));
+})(o || (o = {}));
 
 (() => {
     let e = {};
-    const o = {};
-    let s = 0;
-    function c() {
-        const t = [ "a" ];
-        const e = t.length;
-        let n = false;
-        for (let r = 0; r < e; r++) {
-            const e = document.getElementsByTagName(t[r]);
-            const i = [].slice.call(e);
-            const o = i.length;
-            for (let t = 0; t < o; t++) {
-                if (a(i[t])) {
-                    n = true;
-                }
+    const i = {};
+    let a = 0;
+    function s() {
+        let t = false;
+        const e = document.getElementsByTagName("a");
+        const n = [].slice.call(e);
+        const r = n.length;
+        for (let e = 0; e < r; e++) {
+            if (c(n[e])) {
+                t = true;
             }
         }
-        if (n) {
+        if (t) {
             window.addEventListener("resize", d);
-            g();
+            T();
         }
     }
-    function a(e) {
+    function c(e) {
         let n = false;
-        const r = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_SM);
-        const o = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_MD);
-        const s = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_LG);
-        const c = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_XL);
-        const a = e.getAttribute(i.RINK_JS_ATTRIBUTE_NAME_XXL);
+        const r = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_SM);
+        const i = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_MD);
+        const a = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_LG);
+        const s = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
+        const c = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
         if (t.definedString(r)) {
-            u(576, e, r);
+            u(576, e, r, o.RINK_JS_ATTRIBUTE_NAME_SM);
             n = true;
         }
-        if (t.definedString(o)) {
-            u(768, e, o);
-            n = true;
-        }
-        if (t.definedString(s)) {
-            u(992, e, s);
-            n = true;
-        }
-        if (t.definedString(c)) {
-            u(1200, e, c);
+        if (t.definedString(i)) {
+            u(768, e, i, o.RINK_JS_ATTRIBUTE_NAME_MD);
             n = true;
         }
         if (t.definedString(a)) {
-            u(1400, e, a);
+            u(992, e, a, o.RINK_JS_ATTRIBUTE_NAME_LG);
             n = true;
         }
-        if (!n) {
-            f(e);
+        if (t.definedString(s)) {
+            u(1200, e, s, o.RINK_JS_ATTRIBUTE_NAME_XL);
+            n = true;
         }
+        if (t.definedString(c)) {
+            u(1400, e, c, o.RINK_JS_ATTRIBUTE_NAME_XXL);
+            n = true;
+        }
+        f(e);
         return n;
     }
     function f(e) {
         const n = e.attributes;
         const r = n.length;
-        for (let o = 0; o < r; o++) {
-            const r = n[o];
-            if (r.name.startsWith(i.RINK_JS_ATTRIBUTE_NAME_CUSTOM)) {
+        for (let i = 0; i < r; i++) {
+            const r = n[i];
+            if (r.name.startsWith(o.RINK_JS_ATTRIBUTE_NAME_CUSTOM)) {
                 const n = r.name.split("-");
-                const i = n[n.length - 1];
-                const o = r.value;
-                if (t.definedString(o)) {
-                    u(parseInt(i), e, o);
+                const o = n[n.length - 1];
+                const i = r.value;
+                if (t.definedNumber(parseInt(o)) && t.definedString(i)) {
+                    u(parseInt(o), e, i, r.name);
                 }
             }
         }
     }
-    function u(t, e, n) {
-        if (!Object.prototype.hasOwnProperty.call(o, t.toString())) {
-            o[t.toString()] = [];
+    function u(n, r, o, a) {
+        if (!Object.prototype.hasOwnProperty.call(i, n.toString())) {
+            i[n.toString()] = [];
         }
-        o[t.toString()].push({
-            anchorTag: e,
-            newTarget: n,
-            originalTarget: e.getAttribute("target")
+        let s = r.getAttribute("target");
+        if (!t.definedString(s)) {
+            s = e.defaultTarget;
+        }
+        i[n.toString()].push({
+            anchorTag: r,
+            newTarget: o,
+            originalTarget: s
         });
+        if (e.removeAttributes) {
+            r.removeAttribute(a);
+        }
     }
     function d() {
-        if (s !== 0) {
-            clearTimeout(s);
+        if (a !== 0) {
+            clearTimeout(a);
         }
-        s = setTimeout(() => g(), e.responsiveDelay);
+        a = setTimeout(() => T(), e.responsiveDelay);
     }
-    function g() {
-        T(l());
+    function T() {
+        g(_());
     }
-    function l() {
-        const t = [];
-        for (const e in o) {
-            if (Object.prototype.hasOwnProperty.call(o, e)) {
-                const n = window.innerWidth;
-                const r = parseInt(e);
-                if (n >= r) {
-                    const n = o[e];
-                    const r = n.length;
-                    t.push(e);
-                    for (let t = 0; t < r; t++) {
-                        const e = n[t];
-                        e.anchorTag.setAttribute("target", e.newTarget);
+    function _() {
+        const t = {
+            screenWidths: [],
+            anchorTags: []
+        };
+        const e = l();
+        const n = e.length;
+        for (let r = 0; r < n; r++) {
+            const n = e[r];
+            if (Object.prototype.hasOwnProperty.call(i, n)) {
+                const e = window.innerWidth;
+                const r = parseInt(n);
+                if (e >= r) {
+                    const e = i[n];
+                    const r = e.length;
+                    t.screenWidths.push(n);
+                    for (let n = 0; n < r; n++) {
+                        const r = e[n];
+                        if (t.anchorTags.indexOf(r.anchorTag) === -1) {
+                            t.anchorTags.push(r.anchorTag);
+                            r.anchorTag.setAttribute("target", r.newTarget);
+                        }
                     }
                 }
             }
         }
         return t;
     }
-    function T(t) {
-        for (const e in o) {
-            if (Object.prototype.hasOwnProperty.call(o, e)) {
-                if (t.indexOf(e) === -1) {
-                    const t = o[e];
-                    const n = t.length;
-                    for (let e = 0; e < n; e++) {
-                        const n = t[e];
-                        n.anchorTag.setAttribute("target", n.originalTarget);
+    function g(t) {
+        const e = l();
+        const n = e.length;
+        for (let r = 0; r < n; r++) {
+            const n = e[r];
+            if (Object.prototype.hasOwnProperty.call(i, n)) {
+                if (t.screenWidths.indexOf(n) === -1) {
+                    const e = i[n];
+                    const r = e.length;
+                    for (let n = 0; n < r; n++) {
+                        const r = e[n];
+                        if (t.anchorTags.indexOf(r.anchorTag) === -1) {
+                            r.anchorTag.setAttribute("target", r.originalTarget);
+                        }
                     }
                 }
             }
         }
     }
-    const _ = {
+    function l() {
+        return Object.keys(i).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
+    }
+    const A = {
         setConfiguration: r => {
             if (t.definedObject(r)) {
                 const t = e;
-                let i = false;
+                let o = false;
                 for (const e in r) {
                     if (Object.prototype.hasOwnProperty.call(r, e) && Object.prototype.hasOwnProperty.call(t, e) && t[e] !== r[e]) {
                         t[e] = r[e];
-                        i = true;
+                        o = true;
                     }
                 }
-                if (i) {
+                if (o) {
                     e = n.Options.get(t);
                 }
             }
-            return _;
+            return A;
         },
-        getVersion: () => "1.0.0"
+        getVersion: () => "1.1.0"
     };
     (() => {
         e = n.Options.get();
-        r.onContentLoaded(() => c());
+        r.onContentLoaded(() => s());
         if (!t.defined(window.$rink)) {
-            window.$rink = _;
+            window.$rink = A;
         }
     })();
 })();//# sourceMappingURL=rink.esm.js.map
