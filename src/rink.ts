@@ -30,18 +30,18 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
     let _configurationOptions: ConfigurationOptions = {} as ConfigurationOptions;
 
     // Variables: Anchors
-    const _screenWidthAnchors: Record<string, AnchorOptions[]> = {};
+    let _screenWidthAnchors: Record<string, AnchorOptions[]> = {};
     let _screenWidthChangeTimer: number = 0;
     let _enabled: boolean = true;
     
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Rendering
+     * Fetching
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function render() : void {
+    function fetchAll() : void {
         let anchorTagsFound: boolean = false;
 
         const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( "a" );
@@ -49,7 +49,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         const elementsLength: number = elements.length;
 
         for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
-            if ( renderElement( elements[ elementIndex ] as HTMLAnchorElement ) ) {
+            if ( processElement( elements[ elementIndex ] as HTMLAnchorElement ) ) {
                 anchorTagsFound = true;
             }
         }
@@ -63,7 +63,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         }
     }
 
-    function renderElement( anchorElement: HTMLAnchorElement ) : boolean {
+    function processElement( anchorElement: HTMLAnchorElement ) : boolean {
         let added: boolean = false;
 
         const attributeSmData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_SM )!;
@@ -259,6 +259,16 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
             return _public;
         },
 
+        fetch: function () : PublicApi {
+            if ( !_configurationOptions.removeAttributes ) {
+                _screenWidthAnchors = {} as Record<string, AnchorOptions[]>;
+            }
+
+            fetchAll();
+
+            return _public;
+        },
+
 
         /*
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -310,7 +320,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         _configurationOptions = Configuration.Options.get();
         _enabled = _configurationOptions.enabled!;
         
-        DocumentElement.onContentLoaded( () : void => render() );
+        DocumentElement.onContentLoaded( () : void => fetchAll() );
 
         if ( !Is.defined( window.$rink ) ) {
             window.$rink = _public;

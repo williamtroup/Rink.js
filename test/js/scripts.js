@@ -22,3 +22,7 @@ function start() {
 function stop() {
     $rink.stop();
 }
+
+function fetch() {
+    $rink.fetch();
+}

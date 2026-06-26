@@ -89,7 +89,7 @@ var o;
 
 (() => {
     let e = {};
-    const i = {};
+    let i = {};
     let a = 0;
     let s = true;
     function c() {
@@ -103,9 +103,9 @@ var o;
             }
         }
         if (t) {
-            window.addEventListener("resize", T);
+            window.addEventListener("resize", l);
             if (s) {
-                l();
+                T();
             }
         }
     }
@@ -167,15 +167,15 @@ var o;
             n.removeAttribute(o);
         }
     }
-    function T() {
+    function l() {
         if (s) {
             if (a !== 0) {
                 clearTimeout(a);
             }
-            a = setTimeout(() => l(), e.responsiveDelay);
+            a = setTimeout(() => T(), e.responsiveDelay);
         }
     }
-    function l() {
+    function T() {
         _(g());
     }
     function g() {
@@ -235,11 +235,18 @@ var o;
     const N = {
         start: function() {
             s = true;
-            l();
+            T();
             return N;
         },
         stop: function() {
             s = false;
+            return N;
+        },
+        fetch: function() {
+            if (!e.removeAttributes) {
+                i = {};
+            }
+            c();
             return N;
         },
         setConfiguration: r => {
