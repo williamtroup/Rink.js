@@ -34,6 +34,7 @@ import { Observation } from "./ts/data/observation";
     let _screenWidthAnchors: Record<string, AnchorOptions[]> = {};
     let _screenWidthChangeTimer: number = 0;
     let _enabled: boolean = true;
+    let _windowEventListenerAdded: boolean = false;
     
 
     /*
@@ -56,7 +57,11 @@ import { Observation } from "./ts/data/observation";
         }
 
         if ( anchorTagsFound ) {
-            window.addEventListener( "resize", onWindowResize );
+            if ( !_windowEventListenerAdded ) {
+                window.addEventListener( "resize", onWindowResize );
+
+                _windowEventListenerAdded = true;
+            }
 
             if ( _enabled ) {
                 updateAnchorTags();
