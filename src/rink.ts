@@ -59,7 +59,7 @@ import { Default } from "./ts/data/default";
 
         if ( anchorTagsFound ) {
             if ( !_windowEventListenerAdded ) {
-                window.addEventListener( "resize", onWindowResize );
+                window.addEventListener( Constant.Event.RESIZE, onWindowResize );
 
                 _windowEventListenerAdded = true;
             }
@@ -73,34 +73,34 @@ import { Default } from "./ts/data/default";
     function processElement( anchorElement: HTMLAnchorElement ) : boolean {
         let added: boolean = false;
 
-        const attributeSmData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_SM )!;
-        const attributeMdData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_MD )!;
-        const attributeLgData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_LG )!;
-        const attributeXlData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_XL )!;
-        const attributeXxlData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_XXL )!;
+        const attributeSmData: string = anchorElement.getAttribute( Constant.CustomAttribute.RINK_JS_SM )!;
+        const attributeMdData: string = anchorElement.getAttribute( Constant.CustomAttribute.RINK_JS_MD )!;
+        const attributeLgData: string = anchorElement.getAttribute( Constant.CustomAttribute.RINK_JS_LG )!;
+        const attributeXlData: string = anchorElement.getAttribute( Constant.CustomAttribute.RINK_JS_XL )!;
+        const attributeXxlData: string = anchorElement.getAttribute( Constant.CustomAttribute.RINK_JS_XXL )!;
 
         if ( Is.definedString( attributeSmData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.sm, anchorElement, attributeSmData, Constant.RINK_JS_ATTRIBUTE_NAME_SM );
+            addAnchorToScreenWidthAnchors( ScreenSize.sm, anchorElement, attributeSmData, Constant.CustomAttribute.RINK_JS_SM );
             added = true;
         }
 
         if ( Is.definedString( attributeMdData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.md, anchorElement, attributeMdData, Constant.RINK_JS_ATTRIBUTE_NAME_MD );
+            addAnchorToScreenWidthAnchors( ScreenSize.md, anchorElement, attributeMdData, Constant.CustomAttribute.RINK_JS_MD );
             added = true;
         }
 
         if ( Is.definedString( attributeLgData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.lg, anchorElement, attributeLgData, Constant.RINK_JS_ATTRIBUTE_NAME_LG );
+            addAnchorToScreenWidthAnchors( ScreenSize.lg, anchorElement, attributeLgData, Constant.CustomAttribute.RINK_JS_LG );
             added = true;
         }
 
         if ( Is.definedString( attributeXlData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.xl, anchorElement, attributeXlData, Constant.RINK_JS_ATTRIBUTE_NAME_XL );
+            addAnchorToScreenWidthAnchors( ScreenSize.xl, anchorElement, attributeXlData, Constant.CustomAttribute.RINK_JS_XL );
             added = true;
         }
 
         if ( Is.definedString( attributeXxlData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.xxl, anchorElement, attributeXxlData, Constant.RINK_JS_ATTRIBUTE_NAME_XXL );
+            addAnchorToScreenWidthAnchors( ScreenSize.xxl, anchorElement, attributeXxlData, Constant.CustomAttribute.RINK_JS_XXL );
             added = true;
         }
 
@@ -117,7 +117,7 @@ import { Default } from "./ts/data/default";
             const anchorTagAttribute: Attr = anchorTagAttributes[ anchorTagAttributeIndex ];
             const attributeName: string = anchorTagAttribute.name;
 
-            if ( attributeName.startsWith( Constant.RINK_JS_ATTRIBUTE_NAME_CUSTOM ) ) {
+            if ( attributeName.startsWith( Constant.CustomAttribute.RINK_JS_CUSTOM ) ) {
                 const attributeNameParts: string[] = attributeName.split( Char.dash );
                 const attributeWidth: number = Default.getNumber( parseInt( attributeNameParts[ attributeNameParts.length - 1 ] ), 0 );
                 const anchorTarget: string = anchorTagAttribute.value;
@@ -139,7 +139,7 @@ import { Default } from "./ts/data/default";
         _screenWidthAnchors[ screenSize.toString() ].push( {
             anchorTag: anchorElement,
             newTarget: newTarget,
-            originalTarget: anchorElement.getAttribute( "target" ),
+            originalTarget: anchorElement.getAttribute( Constant.Attribute.TARGET ),
         } as AnchorOptions );
 
         removeAttributesFromAnchorTag( anchorElement, attributeName );

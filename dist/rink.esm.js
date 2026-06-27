@@ -78,12 +78,23 @@ var r;
 var o;
 
 (t => {
-    t.RINK_JS_ATTRIBUTE_NAME_SM = "data-rink-js-sm";
-    t.RINK_JS_ATTRIBUTE_NAME_MD = "data-rink-js-md";
-    t.RINK_JS_ATTRIBUTE_NAME_LG = "data-rink-js-lg";
-    t.RINK_JS_ATTRIBUTE_NAME_XL = "data-rink-js-xl";
-    t.RINK_JS_ATTRIBUTE_NAME_XXL = "data-rink-js-xxl";
-    t.RINK_JS_ATTRIBUTE_NAME_CUSTOM = "data-rink-js";
+    let e;
+    (t => {
+        t.RINK_JS_SM = "data-rink-js-sm";
+        t.RINK_JS_MD = "data-rink-js-md";
+        t.RINK_JS_LG = "data-rink-js-lg";
+        t.RINK_JS_XL = "data-rink-js-xl";
+        t.RINK_JS_XXL = "data-rink-js-xxl";
+        t.RINK_JS_CUSTOM = "data-rink-js";
+    })(e = t.CustomAttribute || (t.CustomAttribute = {}));
+    let n;
+    (t => {
+        t.TARGET = "target";
+    })(n = t.Attribute || (t.Attribute = {}));
+    let r;
+    (t => {
+        t.RESIZE = "resize";
+    })(r = t.Event || (t.Event = {}));
 })(o || (o = {}));
 
 var i;
@@ -118,10 +129,10 @@ var i;
 
 (() => {
     let s = {};
-    let a = {};
-    let c = 0;
-    let f = true;
-    let u = false;
+    let u = {};
+    let a = 0;
+    let c = true;
+    let f = false;
     function d() {
         let t = false;
         const e = document.getElementsByTagName("a");
@@ -133,104 +144,104 @@ var i;
             }
         }
         if (t) {
-            if (!u) {
-                window.addEventListener("resize", A);
-                u = true;
+            if (!f) {
+                window.addEventListener(o.Event.RESIZE, p);
+                f = true;
             }
-            if (f) {
-                b();
+            if (c) {
+                m();
             }
         }
     }
     function l(e) {
         let n = false;
-        const r = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_SM);
-        const i = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_MD);
-        const s = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_LG);
-        const a = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
-        const c = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
+        const r = e.getAttribute(o.CustomAttribute.RINK_JS_SM);
+        const i = e.getAttribute(o.CustomAttribute.RINK_JS_MD);
+        const s = e.getAttribute(o.CustomAttribute.RINK_JS_LG);
+        const u = e.getAttribute(o.CustomAttribute.RINK_JS_XL);
+        const a = e.getAttribute(o.CustomAttribute.RINK_JS_XXL);
         if (t.definedString(r)) {
-            g(576, e, r, o.RINK_JS_ATTRIBUTE_NAME_SM);
+            b(576, e, r, o.CustomAttribute.RINK_JS_SM);
             n = true;
         }
         if (t.definedString(i)) {
-            g(768, e, i, o.RINK_JS_ATTRIBUTE_NAME_MD);
+            b(768, e, i, o.CustomAttribute.RINK_JS_MD);
             n = true;
         }
         if (t.definedString(s)) {
-            g(992, e, s, o.RINK_JS_ATTRIBUTE_NAME_LG);
+            b(992, e, s, o.CustomAttribute.RINK_JS_LG);
+            n = true;
+        }
+        if (t.definedString(u)) {
+            b(1200, e, u, o.CustomAttribute.RINK_JS_XL);
             n = true;
         }
         if (t.definedString(a)) {
-            g(1200, e, a, o.RINK_JS_ATTRIBUTE_NAME_XL);
+            b(1400, e, a, o.CustomAttribute.RINK_JS_XXL);
             n = true;
         }
-        if (t.definedString(c)) {
-            g(1400, e, c, o.RINK_JS_ATTRIBUTE_NAME_XXL);
-            n = true;
-        }
-        T(e);
+        g(e);
         return n;
     }
-    function T(n) {
+    function g(n) {
         const r = n.attributes;
         const i = r.length;
         for (let s = 0; s < i; s++) {
             const i = r[s];
-            const a = i.name;
-            if (a.startsWith(o.RINK_JS_ATTRIBUTE_NAME_CUSTOM)) {
-                const r = a.split("-");
+            const u = i.name;
+            if (u.startsWith(o.CustomAttribute.RINK_JS_CUSTOM)) {
+                const r = u.split("-");
                 const o = e.getNumber(parseInt(r[r.length - 1]), 0);
                 const s = i.value;
                 if (o > 0 && t.definedString(s)) {
-                    g(o, n, s, a);
+                    b(o, n, s, u);
                 } else {
-                    _(n, a);
+                    S(n, u);
                 }
             }
         }
     }
-    function g(t, e, n, r) {
-        if (!Object.prototype.hasOwnProperty.call(a, t.toString())) {
-            a[t.toString()] = [];
+    function b(t, e, n, r) {
+        if (!Object.prototype.hasOwnProperty.call(u, t.toString())) {
+            u[t.toString()] = [];
         }
-        a[t.toString()].push({
+        u[t.toString()].push({
             anchorTag: e,
             newTarget: n,
-            originalTarget: e.getAttribute("target")
+            originalTarget: e.getAttribute(o.Attribute.TARGET)
         });
-        _(e, r);
+        S(e, r);
     }
-    function _(t, e) {
+    function S(t, e) {
         if (s.removeAttributes) {
             t.removeAttribute(e);
         }
     }
-    function A() {
-        if (f) {
-            if (c !== 0) {
-                clearTimeout(c);
+    function p() {
+        if (c) {
+            if (a !== 0) {
+                clearTimeout(a);
             }
-            c = setTimeout(() => b(), s.responsiveDelay);
+            a = setTimeout(() => m(), s.responsiveDelay);
         }
     }
-    function b() {
-        S(N());
+    function m() {
+        h(_());
     }
-    function N() {
+    function _() {
         const t = {
             screenWidths: [],
             anchorTags: []
         };
-        const e = p();
+        const e = A();
         const n = e.length;
         for (let r = 0; r < n; r++) {
             const n = e[r];
-            if (Object.prototype.hasOwnProperty.call(a, n)) {
+            if (Object.prototype.hasOwnProperty.call(u, n)) {
                 const e = window.innerWidth;
                 const r = parseInt(n);
                 if (e >= r) {
-                    const e = a[n];
+                    const e = u[n];
                     const r = e.length;
                     t.screenWidths.push(n);
                     for (let n = 0; n < r; n++) {
@@ -245,14 +256,14 @@ var i;
         }
         return t;
     }
-    function S(e) {
-        const n = p();
+    function h(e) {
+        const n = A();
         const r = n.length;
         for (let o = 0; o < r; o++) {
             const r = n[o];
-            if (Object.prototype.hasOwnProperty.call(a, r)) {
+            if (Object.prototype.hasOwnProperty.call(u, r)) {
                 if (e.screenWidths.indexOf(r) === -1) {
-                    const n = a[r];
+                    const n = u[r];
                     const o = n.length;
                     for (let r = 0; r < o; r++) {
                         const o = n[r];
@@ -268,33 +279,33 @@ var i;
             }
         }
     }
-    function p() {
-        return Object.keys(a).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
+    function A() {
+        return Object.keys(u).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
     }
-    const E = {
+    const v = {
         start: function() {
-            if (!f) {
-                f = true;
-                b();
+            if (!c) {
+                c = true;
+                m();
             }
-            return E;
+            return v;
         },
         stop: function() {
-            f = false;
-            return E;
+            c = false;
+            return v;
         },
         fetch: function() {
             if (!s.removeAttributes) {
-                a = {};
+                u = {};
             }
             d();
-            return E;
+            return v;
         },
         refresh: function() {
-            if (f) {
-                b();
+            if (c) {
+                m();
             }
-            return E;
+            return v;
         },
         setConfiguration: e => {
             if (t.definedObject(e)) {
@@ -308,23 +319,23 @@ var i;
                 }
                 if (r) {
                     s = n.Options.get(t);
-                    f = s.enabled;
+                    c = s.enabled;
                     i.setup(s, () => d());
                 }
             }
-            return E;
+            return v;
         },
         getVersion: () => "1.3.0"
     };
     (() => {
         s = n.Options.get();
-        f = s.enabled;
+        c = s.enabled;
         r.onContentLoaded(() => {
             d();
             i.setup(s, () => d());
         });
         if (!t.defined(window.$rink)) {
-            window.$rink = E;
+            window.$rink = v;
         }
     })();
 })();//# sourceMappingURL=rink.esm.js.map
