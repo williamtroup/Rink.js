@@ -119,9 +119,9 @@ var i;
 (() => {
     let s = {};
     let a = {};
-    let u = 0;
+    let c = 0;
     let f = true;
-    let c = false;
+    let u = false;
     function d() {
         let t = false;
         const e = document.getElementsByTagName("a");
@@ -133,12 +133,12 @@ var i;
             }
         }
         if (t) {
-            if (!c) {
-                window.addEventListener("resize", _);
-                c = true;
+            if (!u) {
+                window.addEventListener("resize", A);
+                u = true;
             }
             if (f) {
-                A();
+                b();
             }
         }
     }
@@ -148,7 +148,7 @@ var i;
         const i = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_MD);
         const s = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_LG);
         const a = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
-        const u = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
+        const c = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
         if (t.definedString(r)) {
             g(576, e, r, o.RINK_JS_ATTRIBUTE_NAME_SM);
             n = true;
@@ -165,8 +165,8 @@ var i;
             g(1200, e, a, o.RINK_JS_ATTRIBUTE_NAME_XL);
             n = true;
         }
-        if (t.definedString(u)) {
-            g(1400, e, u, o.RINK_JS_ATTRIBUTE_NAME_XXL);
+        if (t.definedString(c)) {
+            g(1400, e, c, o.RINK_JS_ATTRIBUTE_NAME_XXL);
             n = true;
         }
         T(e);
@@ -175,19 +175,17 @@ var i;
     function T(n) {
         const r = n.attributes;
         const i = r.length;
-        for (let a = 0; a < i; a++) {
-            const i = r[a];
-            const u = i.name;
-            if (u.startsWith(o.RINK_JS_ATTRIBUTE_NAME_CUSTOM)) {
-                const r = u.split("-");
+        for (let s = 0; s < i; s++) {
+            const i = r[s];
+            const a = i.name;
+            if (a.startsWith(o.RINK_JS_ATTRIBUTE_NAME_CUSTOM)) {
+                const r = a.split("-");
                 const o = e.getNumber(parseInt(r[r.length - 1]), 0);
-                const a = i.value;
-                if (o > 0 && t.definedString(a)) {
-                    g(o, n, a, u);
+                const s = i.value;
+                if (o > 0 && t.definedString(s)) {
+                    g(o, n, s, a);
                 } else {
-                    if (s.removeAttributes) {
-                        n.removeAttribute(u);
-                    }
+                    _(n, a);
                 }
             }
         }
@@ -201,27 +199,30 @@ var i;
             newTarget: n,
             originalTarget: e.getAttribute("target")
         });
-        if (s.removeAttributes) {
-            e.removeAttribute(r);
-        }
+        _(e, r);
     }
-    function _() {
-        if (f) {
-            if (u !== 0) {
-                clearTimeout(u);
-            }
-            u = setTimeout(() => A(), s.responsiveDelay);
+    function _(t, e) {
+        if (s.removeAttributes) {
+            t.removeAttribute(e);
         }
     }
     function A() {
-        N(b());
+        if (f) {
+            if (c !== 0) {
+                clearTimeout(c);
+            }
+            c = setTimeout(() => b(), s.responsiveDelay);
+        }
     }
     function b() {
+        S(N());
+    }
+    function N() {
         const t = {
             screenWidths: [],
             anchorTags: []
         };
-        const e = S();
+        const e = p();
         const n = e.length;
         for (let r = 0; r < n; r++) {
             const n = e[r];
@@ -244,8 +245,8 @@ var i;
         }
         return t;
     }
-    function N(e) {
-        const n = S();
+    function S(e) {
+        const n = p();
         const r = n.length;
         for (let o = 0; o < r; o++) {
             const r = n[o];
@@ -267,33 +268,33 @@ var i;
             }
         }
     }
-    function S() {
+    function p() {
         return Object.keys(a).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
     }
-    const p = {
+    const E = {
         start: function() {
             if (!f) {
                 f = true;
-                A();
+                b();
             }
-            return p;
+            return E;
         },
         stop: function() {
             f = false;
-            return p;
+            return E;
         },
         fetch: function() {
             if (!s.removeAttributes) {
                 a = {};
             }
             d();
-            return p;
+            return E;
         },
         refresh: function() {
             if (f) {
-                A();
+                b();
             }
-            return p;
+            return E;
         },
         setConfiguration: e => {
             if (t.definedObject(e)) {
@@ -311,7 +312,7 @@ var i;
                     i.setup(s, () => d());
                 }
             }
-            return p;
+            return E;
         },
         getVersion: () => "1.3.0"
     };
@@ -323,7 +324,7 @@ var i;
             i.setup(s, () => d());
         });
         if (!t.defined(window.$rink)) {
-            window.$rink = p;
+            window.$rink = E;
         }
     })();
 })();//# sourceMappingURL=rink.esm.js.map

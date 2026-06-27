@@ -125,10 +125,7 @@ import { Default } from "./ts/data/default";
                 if ( attributeWidth > 0 && Is.definedString( anchorTarget ) ) {
                     addAnchorToScreenWidthAnchors( attributeWidth, anchorElement, anchorTarget, attributeName );
                 } else {
-
-                    if ( _configurationOptions.removeAttributes ) {
-                        anchorElement.removeAttribute( attributeName );
-                    }
+                    removeAttributesFromAnchorTag( anchorElement, attributeName );
                 }
             }
         }
@@ -145,6 +142,10 @@ import { Default } from "./ts/data/default";
             originalTarget: anchorElement.getAttribute( "target" ),
         } as AnchorOptions );
 
+        removeAttributesFromAnchorTag( anchorElement, attributeName );
+    }
+
+    function removeAttributesFromAnchorTag( anchorElement: HTMLAnchorElement, attributeName: string ) : void {
         if ( _configurationOptions.removeAttributes ) {
             anchorElement.removeAttribute( attributeName );
         }
