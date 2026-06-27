@@ -199,7 +199,7 @@ import { Default } from "./ts/data/default";
 
                         if ( anchorTagsProcessed.anchorTags.indexOf( anchorTag.anchorTag ) === Value.notFound ) {
                             anchorTagsProcessed.anchorTags.push( anchorTag.anchorTag );
-                            anchorTag.anchorTag.setAttribute( "target", anchorTag.newTarget! );
+                            anchorTag.anchorTag.setAttribute( Constant.Attribute.TARGET, anchorTag.newTarget! );
                         }
                     }
                 }
@@ -231,7 +231,7 @@ import { Default } from "./ts/data/default";
                                 originalTarget = _configurationOptions.defaultTarget!;
                             }
 
-                            anchorTag.anchorTag.setAttribute( "target", originalTarget );
+                            anchorTag.anchorTag.setAttribute( Constant.Attribute.TARGET, originalTarget );
                         }
                     }
                 }
