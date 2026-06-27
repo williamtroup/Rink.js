@@ -24,6 +24,7 @@ import { DocumentElement } from "./ts/dom/document-element";
 import { Constant } from "./ts/constant";
 import { Char, ScreenSize, Value } from "./ts/data/enum";
 import { Observation } from "./ts/data/observation";
+import { Default } from "./ts/data/default";
 
 
 ( () : void => {
@@ -117,11 +118,11 @@ import { Observation } from "./ts/data/observation";
 
             if ( anchorTagAttribute.name.startsWith( Constant.RINK_JS_ATTRIBUTE_NAME_CUSTOM ) ) {
                 const attributeNameParts: string[] = anchorTagAttribute.name.split( Char.dash );
-                const attributeWidth: string = attributeNameParts[ attributeNameParts.length - 1 ];
+                const attributeWidth: number = Default.getNumber( attributeNameParts[ attributeNameParts.length - 1 ], 0 );
                 const anchorTarget: string = anchorTagAttribute.value;
 
-                if ( Is.definedNumber( parseInt( attributeWidth ) ) && Is.definedString( anchorTarget ) ) {
-                    addAnchorToScreenWidthAnchors( parseInt( attributeWidth ), anchorElement, anchorTarget, anchorTagAttribute.name );
+                if ( attributeWidth > 0 && Is.definedString( anchorTarget ) ) {
+                    addAnchorToScreenWidthAnchors( attributeWidth, anchorElement, anchorTarget, anchorTagAttribute.name );
                 }
             }
         }
