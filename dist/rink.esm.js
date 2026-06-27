@@ -304,7 +304,7 @@ var i;
             }
             return N;
         },
-        getVersion: () => "1.2.0"
+        getVersion: () => "1.3.0"
     };
     (() => {
         e = n.Options.get();
