@@ -10,11 +10,11 @@
         <script src="js/scripts.js"></script>
     </head>
 
-    <body data-random-attribute="attribute-value" name="body" id="body" style="font-family: default;">
+    <body>
         <div class="header">
             <img src="images/image.png" class="logo" />
             <h1 id="header">Rink.js - Bootstrap</h1>
-            <p id="description">This is a basic example of how to use Rink.js alongside Bootstrap.</p>
+            <p id="description">This is a basic example of how to use Rink.js with different sizes for the links, alongside Bootstrap.</p>
         </div>
 
         <div class="contents">
@@ -27,8 +27,15 @@
         </div>
 
         <div class="contents">
+            <h2>Automation:</h2>
+            <button class="btn btn-primary" onclick="start();">Start</button>
+            <button class="btn btn-primary" onclick="stop();">Stop</button>
+            <button class="btn btn-primary" onclick="fetch();">Fetch</button>
+            <button class="btn btn-primary" onclick="refresh();">Refresh</button>
+            <br />
+
             <h2>Configuration:</h2>
-            <button class="btn btn-primary" onclick="setupConfiguration();">Set Configuration</button>
+            <button class="btn btn-primary" onclick="setConfiguration();">Set Configuration</button>
             <br />
 
             <h2>Additional Data:</h2>

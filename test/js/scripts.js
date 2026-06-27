@@ -5,12 +5,28 @@
     } );
 } )();
 
-function setupConfiguration() {
+function setConfiguration() {
     $rink.setConfiguration( {
-        safeMode: false
+        responsiveDelay: 500,
     } );
 }
 
 function getVersion() {
     console.log( $rink.getVersion() );
+}
+
+function start() {
+    $rink.start();
+}
+
+function stop() {
+    $rink.stop();
+}
+
+function fetch() {
+    $rink.fetch();
+}
+
+function refresh() {
+    $rink.refresh();
 }

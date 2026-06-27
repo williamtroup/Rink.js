@@ -9,11 +9,11 @@
         <script src="js/scripts.js"></script>
     </head>
 
-    <body data-random-attribute="attribute-value" name="body" id="body" style="font-family: default;">
+    <body>
         <div class="header">
             <img src="images/image.png" class="logo" />
             <h1 id="header">Rink.js - Minimized</h1>
-            <p>This is a basic example of how to use Rink.js.</p>
+            <p>This is a basic example of how to use Rink.js with different sizes for the links.</p>
         </div>
 
         <div class="contents">
@@ -26,8 +26,15 @@
         </div>
 
         <div class="contents">
+            <h2>Automation:</h2>
+            <button onclick="start();">Start</button>
+            <button onclick="stop();">Stop</button>
+            <button onclick="fetch();">Fetch</button>
+            <button onclick="refresh();">Refresh</button>
+            <br />
+
             <h2>Configuration:</h2>
-            <button onclick="setupConfiguration();">Set Configuration</button>
+            <button onclick="setConfiguration();">Set Configuration</button>
             <br />
 
             <h2>Additional Data:</h2>

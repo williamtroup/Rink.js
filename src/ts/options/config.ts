@@ -4,7 +4,7 @@
  * A JavaScript library for generating responsive HTML link targets.
  * 
  * @file        config.ts
- * @version     v1.1.0
+ * @version     v1.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2026
@@ -22,6 +22,8 @@ export namespace Configuration {
             configurationOptions.responsiveDelay = Default.getNumber( configurationOptions.responsiveDelay, 250 );
             configurationOptions.defaultTarget = Default.getString( configurationOptions.defaultTarget, "_self" );
             configurationOptions.removeAttributes = Default.getBoolean( configurationOptions.removeAttributes, true );
+            configurationOptions.enabled = Default.getBoolean( configurationOptions.enabled, true );
+            configurationOptions.observationMode = Default.getBoolean( configurationOptions.observationMode, true );
 
             return configurationOptions;
         }

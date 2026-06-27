@@ -4,7 +4,7 @@
  * A JavaScript library for generating responsive HTML link targets.
  * 
  * @file        api.ts
- * @version     v1.1.0
+ * @version     v1.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2026
@@ -15,6 +15,57 @@ import { type ConfigurationOptions } from "./type";
 
 
 export type PublicApi = {
+    /*
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     * Public API Functions:  Control
+     * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * start().
+     * 
+     * Starts the responsive link automation.
+     * 
+     * @public
+     * 
+     * @returns     {Object}                                                The Rink.js class instance.
+     */
+    start: () => PublicApi;
+
+    /**
+     * stop().
+     * 
+     * Stops the responsive link automation.
+     * 
+     * @public
+     * 
+     * @returns     {Object}                                                The Rink.js class instance.
+     */
+    stop: () => PublicApi;
+
+    /**
+     * fetch().
+     * 
+     * Fetches all the responsive link elements.
+     * 
+     * @public
+     * 
+     * @returns     {Object}                                                The Rink.js class instance.
+     */
+    fetch: () => PublicApi;
+
+    /**
+     * refresh().
+     * 
+     * Refreshes all the responsive link elements.
+     * 
+     * @public
+     * 
+     * @returns     {Object}                                                The Rink.js class instance.
+     */
+    refresh: () => PublicApi;
+
+
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      * Public API Functions:  Configuration

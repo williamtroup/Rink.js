@@ -4,7 +4,7 @@
  * A JavaScript library for generating responsive HTML link targets.
  * 
  * @file        rink.ts
- * @version     v1.1.0
+ * @version     v1.2.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2026
@@ -23,6 +23,7 @@ import { Configuration } from "./ts/options/config";
 import { DocumentElement } from "./ts/dom/document-element";
 import { Constant } from "./ts/constant";
 import { Char, ScreenSize, Value } from "./ts/data/enum";
+import { Observation } from "./ts/data/observation";
 
 
 ( () : void => {
@@ -30,17 +31,18 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
     let _configurationOptions: ConfigurationOptions = {} as ConfigurationOptions;
 
     // Variables: Anchors
-    const _screenWidthAnchors: Record<string, AnchorOptions[]> = {};
+    let _screenWidthAnchors: Record<string, AnchorOptions[]> = {};
     let _screenWidthChangeTimer: number = 0;
+    let _enabled: boolean = true;
     
 
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Rendering
+     * Fetching
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    function render() : void {
+    function fetchAll() : void {
         let anchorTagsFound: boolean = false;
 
         const domElements: HTMLCollectionOf<Element> = document.getElementsByTagName( "a" );
@@ -48,7 +50,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         const elementsLength: number = elements.length;
 
         for ( let elementIndex: number = 0; elementIndex < elementsLength; elementIndex++ ) {
-            if ( renderElement( elements[ elementIndex ] as HTMLAnchorElement ) ) {
+            if ( processElement( elements[ elementIndex ] as HTMLAnchorElement ) ) {
                 anchorTagsFound = true;
             }
         }
@@ -56,11 +58,13 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
         if ( anchorTagsFound ) {
             window.addEventListener( "resize", onWindowResize );
 
-            updateAnchorTags();
+            if ( _enabled ) {
+                updateAnchorTags();
+            }
         }
     }
 
-    function renderElement( anchorElement: HTMLAnchorElement ) : boolean {
+    function processElement( anchorElement: HTMLAnchorElement ) : boolean {
         let added: boolean = false;
 
         const attributeSmData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_SM )!;
@@ -123,16 +127,10 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
             _screenWidthAnchors[ screenSize.toString() ] = [];
         }
 
-        let originalTarget: string | null = anchorElement.getAttribute( "target" );
-
-        if ( !Is.definedString( originalTarget ) ) {
-            originalTarget = _configurationOptions.defaultTarget!;
-        }
-
         _screenWidthAnchors[ screenSize.toString() ].push( {
             anchorTag: anchorElement,
             newTarget: newTarget,
-            originalTarget: originalTarget,
+            originalTarget: anchorElement.getAttribute( "target" ),
         } as AnchorOptions );
 
         if ( _configurationOptions.removeAttributes ) {
@@ -148,11 +146,13 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
      */
 
     function onWindowResize() : void {
-        if ( _screenWidthChangeTimer !== 0 ) {
-            clearTimeout( _screenWidthChangeTimer );
-        }
+        if ( _enabled ) {
+            if ( _screenWidthChangeTimer !== 0 ) {
+                clearTimeout( _screenWidthChangeTimer );
+            }
 
-        _screenWidthChangeTimer = setTimeout( () => updateAnchorTags(), _configurationOptions.responsiveDelay! );
+            _screenWidthChangeTimer = setTimeout( () => updateAnchorTags(), _configurationOptions.responsiveDelay! );
+        }
     }
 
     function updateAnchorTags() : void {
@@ -212,7 +212,13 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
                         const anchorTag: AnchorOptions = anchorTags[ anchorTagIndex ];
 
                         if ( anchorTagsProcessed.anchorTags.indexOf( anchorTag.anchorTag ) === Value.notFound ) {
-                            anchorTag.anchorTag.setAttribute( "target", anchorTag.originalTarget! );
+                            let originalTarget: string | null = anchorTag.originalTarget!;
+
+                            if ( !Is.definedString( originalTarget ) ) {
+                                originalTarget = _configurationOptions.defaultTarget!;
+                            }
+
+                            anchorTag.anchorTag.setAttribute( "target", originalTarget );
                         }
                     }
                 }
@@ -235,6 +241,47 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
 
     const _public: PublicApi = {
         /*
+        * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        * Public API Functions:  Control
+        * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        */
+
+        start: function () : PublicApi {
+            if ( !_enabled ) {
+                _enabled = true;
+
+                updateAnchorTags();
+            }
+
+            return _public;
+        },
+        
+        stop: function () : PublicApi {
+            _enabled = false;
+
+            return _public;
+        },
+
+        fetch: function () : PublicApi {
+            if ( !_configurationOptions.removeAttributes ) {
+                _screenWidthAnchors = {} as Record<string, AnchorOptions[]>;
+            }
+
+            fetchAll();
+
+            return _public;
+        },
+
+        refresh: function () : PublicApi {
+            if ( _enabled ) {
+                updateAnchorTags();
+            }
+
+            return _public;
+        },
+
+
+        /*
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          * Public API Functions:  Configuration
          * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -244,19 +291,22 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
             if ( Is.definedObject( configurationOptions ) ) {
                 const existingConfigurationOptions: ConfigurationOptions = _configurationOptions;
                 let configurationOptionsHaveChanged: boolean = false;
-            
+
                 for ( const propertyName in configurationOptions ) {
                     if ( Object.prototype.hasOwnProperty.call( configurationOptions, propertyName ) && Object.prototype.hasOwnProperty.call( existingConfigurationOptions, propertyName ) && existingConfigurationOptions[ propertyName ] !== configurationOptions[ propertyName ] ) {
                         existingConfigurationOptions[ propertyName ] = configurationOptions[ propertyName ];
                         configurationOptionsHaveChanged = true;
                     }
                 }
-        
+
                 if ( configurationOptionsHaveChanged ) {
                     _configurationOptions = Configuration.Options.get( existingConfigurationOptions );
+                    _enabled = _configurationOptions.enabled!;
+
+                    Observation.setup( _configurationOptions, () : void => fetchAll() );
                 }
             }
-    
+
             return _public;
         },
 
@@ -268,7 +318,7 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
          */
 
         getVersion: () : string => {
-            return "1.1.0";
+            return "1.2.0";
         }
     };
 
@@ -281,8 +331,13 @@ import { Char, ScreenSize, Value } from "./ts/data/enum";
 
     ( () : void => {
         _configurationOptions = Configuration.Options.get();
+        _enabled = _configurationOptions.enabled!;
         
-        DocumentElement.onContentLoaded( () : void => render() );
+        DocumentElement.onContentLoaded( () : void => {
+            fetchAll();
+            
+            Observation.setup( _configurationOptions, () : void => fetchAll() );
+        } );
 
         if ( !Is.defined( window.$rink ) ) {
             window.$rink = _public;
