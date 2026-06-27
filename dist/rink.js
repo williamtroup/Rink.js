@@ -177,14 +177,19 @@ var i;
     function T(n) {
         const r = n.attributes;
         const i = r.length;
-        for (let s = 0; s < i; s++) {
-            const i = r[s];
-            if (i.name.startsWith(o.RINK_JS_ATTRIBUTE_NAME_CUSTOM)) {
-                const r = i.name.split("-");
-                const o = e.getNumber(r[r.length - 1], -1);
-                const s = i.value;
-                if (o > -1 && t.definedString(s)) {
-                    g(o, n, s, i.name);
+        for (let a = 0; a < i; a++) {
+            const i = r[a];
+            const u = i.name;
+            if (u.startsWith(o.RINK_JS_ATTRIBUTE_NAME_CUSTOM)) {
+                const r = u.split("-");
+                const o = e.getNumber(parseInt(r[r.length - 1]), 0);
+                const a = i.value;
+                if (o > 0 && t.definedString(a)) {
+                    g(o, n, a, u);
+                } else {
+                    if (s.removeAttributes) {
+                        n.removeAttribute(u);
+                    }
                 }
             }
         }
@@ -267,30 +272,30 @@ var i;
     function S() {
         return Object.keys(a).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
     }
-    const E = {
+    const p = {
         start: function() {
             if (!c) {
                 c = true;
                 A();
             }
-            return E;
+            return p;
         },
         stop: function() {
             c = false;
-            return E;
+            return p;
         },
         fetch: function() {
             if (!s.removeAttributes) {
                 a = {};
             }
             d();
-            return E;
+            return p;
         },
         refresh: function() {
             if (c) {
                 A();
             }
-            return E;
+            return p;
         },
         setConfiguration: e => {
             if (t.definedObject(e)) {
@@ -308,7 +313,7 @@ var i;
                     i.setup(s, () => d());
                 }
             }
-            return E;
+            return p;
         },
         getVersion: () => "1.3.0"
     };
@@ -320,7 +325,7 @@ var i;
             i.setup(s, () => d());
         });
         if (!t.defined(window.$rink)) {
-            window.$rink = E;
+            window.$rink = p;
         }
     })();
 })();//# sourceMappingURL=rink.js.map

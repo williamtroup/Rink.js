@@ -115,14 +115,20 @@ import { Default } from "./ts/data/default";
 
         for ( let anchorTagAttributeIndex = 0; anchorTagAttributeIndex < anchorTagAttributesLength; anchorTagAttributeIndex++ ) {
             const anchorTagAttribute: Attr = anchorTagAttributes[ anchorTagAttributeIndex ];
+            const attributeName: string = anchorTagAttribute.name;
 
-            if ( anchorTagAttribute.name.startsWith( Constant.RINK_JS_ATTRIBUTE_NAME_CUSTOM ) ) {
-                const attributeNameParts: string[] = anchorTagAttribute.name.split( Char.dash );
-                const attributeWidth: number = Default.getNumber( attributeNameParts[ attributeNameParts.length - 1 ], 0 );
+            if ( attributeName.startsWith( Constant.RINK_JS_ATTRIBUTE_NAME_CUSTOM ) ) {
+                const attributeNameParts: string[] = attributeName.split( Char.dash );
+                const attributeWidth: number = Default.getNumber( parseInt( attributeNameParts[ attributeNameParts.length - 1 ] ), 0 );
                 const anchorTarget: string = anchorTagAttribute.value;
 
                 if ( attributeWidth > 0 && Is.definedString( anchorTarget ) ) {
-                    addAnchorToScreenWidthAnchors( attributeWidth, anchorElement, anchorTarget, anchorTagAttribute.name );
+                    addAnchorToScreenWidthAnchors( attributeWidth, anchorElement, anchorTarget, attributeName );
+                } else {
+
+                    if ( _configurationOptions.removeAttributes ) {
+                        anchorElement.removeAttribute( attributeName );
+                    }
                 }
             }
         }

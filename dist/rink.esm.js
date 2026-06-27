@@ -119,8 +119,8 @@ var i;
 (() => {
     let s = {};
     let a = {};
-    let f = 0;
-    let u = true;
+    let u = 0;
+    let f = true;
     let c = false;
     function d() {
         let t = false;
@@ -137,7 +137,7 @@ var i;
                 window.addEventListener("resize", _);
                 c = true;
             }
-            if (u) {
+            if (f) {
                 A();
             }
         }
@@ -148,7 +148,7 @@ var i;
         const i = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_MD);
         const s = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_LG);
         const a = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
-        const f = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
+        const u = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
         if (t.definedString(r)) {
             g(576, e, r, o.RINK_JS_ATTRIBUTE_NAME_SM);
             n = true;
@@ -165,8 +165,8 @@ var i;
             g(1200, e, a, o.RINK_JS_ATTRIBUTE_NAME_XL);
             n = true;
         }
-        if (t.definedString(f)) {
-            g(1400, e, f, o.RINK_JS_ATTRIBUTE_NAME_XXL);
+        if (t.definedString(u)) {
+            g(1400, e, u, o.RINK_JS_ATTRIBUTE_NAME_XXL);
             n = true;
         }
         T(e);
@@ -175,14 +175,19 @@ var i;
     function T(n) {
         const r = n.attributes;
         const i = r.length;
-        for (let s = 0; s < i; s++) {
-            const i = r[s];
-            if (i.name.startsWith(o.RINK_JS_ATTRIBUTE_NAME_CUSTOM)) {
-                const r = i.name.split("-");
-                const o = e.getNumber(r[r.length - 1], -1);
-                const s = i.value;
-                if (o > -1 && t.definedString(s)) {
-                    g(o, n, s, i.name);
+        for (let a = 0; a < i; a++) {
+            const i = r[a];
+            const u = i.name;
+            if (u.startsWith(o.RINK_JS_ATTRIBUTE_NAME_CUSTOM)) {
+                const r = u.split("-");
+                const o = e.getNumber(parseInt(r[r.length - 1]), 0);
+                const a = i.value;
+                if (o > 0 && t.definedString(a)) {
+                    g(o, n, a, u);
+                } else {
+                    if (s.removeAttributes) {
+                        n.removeAttribute(u);
+                    }
                 }
             }
         }
@@ -201,11 +206,11 @@ var i;
         }
     }
     function _() {
-        if (u) {
-            if (f !== 0) {
-                clearTimeout(f);
+        if (f) {
+            if (u !== 0) {
+                clearTimeout(u);
             }
-            f = setTimeout(() => A(), s.responsiveDelay);
+            u = setTimeout(() => A(), s.responsiveDelay);
         }
     }
     function A() {
@@ -265,30 +270,30 @@ var i;
     function S() {
         return Object.keys(a).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
     }
-    const E = {
+    const p = {
         start: function() {
-            if (!u) {
-                u = true;
+            if (!f) {
+                f = true;
                 A();
             }
-            return E;
+            return p;
         },
         stop: function() {
-            u = false;
-            return E;
+            f = false;
+            return p;
         },
         fetch: function() {
             if (!s.removeAttributes) {
                 a = {};
             }
             d();
-            return E;
+            return p;
         },
         refresh: function() {
-            if (u) {
+            if (f) {
                 A();
             }
-            return E;
+            return p;
         },
         setConfiguration: e => {
             if (t.definedObject(e)) {
@@ -302,23 +307,23 @@ var i;
                 }
                 if (r) {
                     s = n.Options.get(t);
-                    u = s.enabled;
+                    f = s.enabled;
                     i.setup(s, () => d());
                 }
             }
-            return E;
+            return p;
         },
         getVersion: () => "1.3.0"
     };
     (() => {
         s = n.Options.get();
-        u = s.enabled;
+        f = s.enabled;
         r.onContentLoaded(() => {
             d();
             i.setup(s, () => d());
         });
         if (!t.defined(window.$rink)) {
-            window.$rink = E;
+            window.$rink = p;
         }
     })();
 })();//# sourceMappingURL=rink.esm.js.map
