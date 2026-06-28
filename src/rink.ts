@@ -231,7 +231,11 @@ import { Default } from "./ts/data/default";
                                 originalTarget = _configurationOptions.defaultTarget!;
                             }
 
-                            anchorTag.anchorTag.setAttribute( Constant.Attribute.TARGET, originalTarget );
+                            if ( Is.definedString( originalTarget ) ) {
+                                anchorTag.anchorTag.setAttribute( Constant.Attribute.TARGET, originalTarget );
+                            } else {
+                                anchorTag.anchorTag.removeAttribute( Constant.Attribute.TARGET );
+                            }
                         }
                     }
                 }

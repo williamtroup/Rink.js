@@ -147,7 +147,7 @@ var i;
         }
         if (t) {
             if (!f) {
-                window.addEventListener(o.Event.RESIZE, p);
+                window.addEventListener(o.Event.RESIZE, A);
                 f = true;
             }
             if (c) {
@@ -219,7 +219,7 @@ var i;
             t.removeAttribute(e);
         }
     }
-    function p() {
+    function A() {
         if (c) {
             if (a !== 0) {
                 clearTimeout(a);
@@ -228,9 +228,9 @@ var i;
         }
     }
     function m() {
-        _(A());
+        _(p());
     }
-    function A() {
+    function p() {
         const t = {
             screenWidths: [],
             anchorTags: []
@@ -274,7 +274,11 @@ var i;
                             if (!t.definedString(e)) {
                                 e = u.defaultTarget;
                             }
-                            i.anchorTag.setAttribute(o.Attribute.TARGET, e);
+                            if (t.definedString(e)) {
+                                i.anchorTag.setAttribute(o.Attribute.TARGET, e);
+                            } else {
+                                i.anchorTag.removeAttribute(o.Attribute.TARGET);
+                            }
                         }
                     }
                 }

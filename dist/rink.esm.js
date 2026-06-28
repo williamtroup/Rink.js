@@ -131,8 +131,8 @@ var i;
     let u = {};
     let s = {};
     let a = 0;
-    let c = true;
-    let f = false;
+    let f = true;
+    let c = false;
     function d() {
         let t = false;
         const e = document.getElementsByTagName("a");
@@ -144,11 +144,11 @@ var i;
             }
         }
         if (t) {
-            if (!f) {
-                window.addEventListener(o.Event.RESIZE, p);
-                f = true;
+            if (!c) {
+                window.addEventListener(o.Event.RESIZE, A);
+                c = true;
             }
-            if (c) {
+            if (f) {
                 m();
             }
         }
@@ -217,8 +217,8 @@ var i;
             t.removeAttribute(e);
         }
     }
-    function p() {
-        if (c) {
+    function A() {
+        if (f) {
             if (a !== 0) {
                 clearTimeout(a);
             }
@@ -226,9 +226,9 @@ var i;
         }
     }
     function m() {
-        _(A());
+        _(p());
     }
-    function A() {
+    function p() {
         const t = {
             screenWidths: [],
             anchorTags: []
@@ -272,7 +272,11 @@ var i;
                             if (!t.definedString(e)) {
                                 e = u.defaultTarget;
                             }
-                            i.anchorTag.setAttribute(o.Attribute.TARGET, e);
+                            if (t.definedString(e)) {
+                                i.anchorTag.setAttribute(o.Attribute.TARGET, e);
+                            } else {
+                                i.anchorTag.removeAttribute(o.Attribute.TARGET);
+                            }
                         }
                     }
                 }
@@ -284,14 +288,14 @@ var i;
     }
     const T = {
         start: function() {
-            if (!c) {
-                c = true;
+            if (!f) {
+                f = true;
                 m();
             }
             return T;
         },
         stop: function() {
-            c = false;
+            f = false;
             return T;
         },
         fetch: function() {
@@ -302,7 +306,7 @@ var i;
             return T;
         },
         refresh: function() {
-            if (c) {
+            if (f) {
                 m();
             }
             return T;
@@ -319,7 +323,7 @@ var i;
                 }
                 if (r) {
                     u = n.Options.get(t);
-                    c = u.enabled;
+                    f = u.enabled;
                     i.setup(u, () => d());
                 }
             }
@@ -329,7 +333,7 @@ var i;
     };
     (() => {
         u = n.Options.get();
-        c = u.enabled;
+        f = u.enabled;
         r.onContentLoaded(() => {
             d();
             i.setup(u, () => d());
