@@ -4,7 +4,7 @@
  * A JavaScript library for generating responsive HTML link targets.
  * 
  * @file        enum.ts
- * @version     v1.2.0
+ * @version     v1.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2026

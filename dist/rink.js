@@ -80,12 +80,23 @@ var r;
 var o;
 
 (t => {
-    t.RINK_JS_ATTRIBUTE_NAME_SM = "data-rink-js-sm";
-    t.RINK_JS_ATTRIBUTE_NAME_MD = "data-rink-js-md";
-    t.RINK_JS_ATTRIBUTE_NAME_LG = "data-rink-js-lg";
-    t.RINK_JS_ATTRIBUTE_NAME_XL = "data-rink-js-xl";
-    t.RINK_JS_ATTRIBUTE_NAME_XXL = "data-rink-js-xxl";
-    t.RINK_JS_ATTRIBUTE_NAME_CUSTOM = "data-rink-js";
+    let e;
+    (t => {
+        t.RINK_JS_SM = "data-rink-js-sm";
+        t.RINK_JS_MD = "data-rink-js-md";
+        t.RINK_JS_LG = "data-rink-js-lg";
+        t.RINK_JS_XL = "data-rink-js-xl";
+        t.RINK_JS_XXL = "data-rink-js-xxl";
+        t.RINK_JS_CUSTOM = "data-rink-js";
+    })(e = t.CustomAttribute || (t.CustomAttribute = {}));
+    let n;
+    (t => {
+        t.TARGET = "target";
+    })(n = t.Attribute || (t.Attribute = {}));
+    let r;
+    (t => {
+        t.RESIZE = "resize";
+    })(r = t.Event || (t.Event = {}));
 })(o || (o = {}));
 
 var i;
@@ -119,102 +130,112 @@ var i;
 })(i || (i = {}));
 
 (() => {
-    let e = {};
+    let u = {};
     let s = {};
     let a = 0;
     let c = true;
-    function u() {
+    let f = false;
+    function d() {
         let t = false;
         const e = document.getElementsByTagName("a");
         const n = [].slice.call(e);
         const r = n.length;
         for (let e = 0; e < r; e++) {
-            if (f(n[e])) {
+            if (l(n[e])) {
                 t = true;
             }
         }
         if (t) {
-            window.addEventListener("resize", T);
+            if (!f) {
+                window.addEventListener(o.Event.RESIZE, A);
+                f = true;
+            }
             if (c) {
-                g();
+                m();
             }
         }
     }
-    function f(e) {
+    function l(e) {
         let n = false;
-        const r = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_SM);
-        const i = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_MD);
-        const s = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_LG);
-        const a = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XL);
-        const c = e.getAttribute(o.RINK_JS_ATTRIBUTE_NAME_XXL);
+        const r = e.getAttribute(o.CustomAttribute.RINK_JS_SM);
+        const i = e.getAttribute(o.CustomAttribute.RINK_JS_MD);
+        const u = e.getAttribute(o.CustomAttribute.RINK_JS_LG);
+        const s = e.getAttribute(o.CustomAttribute.RINK_JS_XL);
+        const a = e.getAttribute(o.CustomAttribute.RINK_JS_XXL);
         if (t.definedString(r)) {
-            l(576, e, r, o.RINK_JS_ATTRIBUTE_NAME_SM);
+            b(576, e, r, o.CustomAttribute.RINK_JS_SM);
             n = true;
         }
         if (t.definedString(i)) {
-            l(768, e, i, o.RINK_JS_ATTRIBUTE_NAME_MD);
+            b(768, e, i, o.CustomAttribute.RINK_JS_MD);
+            n = true;
+        }
+        if (t.definedString(u)) {
+            b(992, e, u, o.CustomAttribute.RINK_JS_LG);
             n = true;
         }
         if (t.definedString(s)) {
-            l(992, e, s, o.RINK_JS_ATTRIBUTE_NAME_LG);
+            b(1200, e, s, o.CustomAttribute.RINK_JS_XL);
             n = true;
         }
         if (t.definedString(a)) {
-            l(1200, e, a, o.RINK_JS_ATTRIBUTE_NAME_XL);
+            b(1400, e, a, o.CustomAttribute.RINK_JS_XXL);
             n = true;
         }
-        if (t.definedString(c)) {
-            l(1400, e, c, o.RINK_JS_ATTRIBUTE_NAME_XXL);
-            n = true;
-        }
-        d(e);
+        g(e);
         return n;
     }
-    function d(e) {
-        const n = e.attributes;
-        const r = n.length;
-        for (let i = 0; i < r; i++) {
-            const r = n[i];
-            if (r.name.startsWith(o.RINK_JS_ATTRIBUTE_NAME_CUSTOM)) {
-                const n = r.name.split("-");
-                const o = n[n.length - 1];
-                const i = r.value;
-                if (t.definedNumber(parseInt(o)) && t.definedString(i)) {
-                    l(parseInt(o), e, i, r.name);
+    function g(n) {
+        const r = n.attributes;
+        const i = r.length;
+        for (let u = 0; u < i; u++) {
+            const i = r[u];
+            const s = i.name;
+            if (s.startsWith(o.CustomAttribute.RINK_JS_CUSTOM)) {
+                const r = s.split("-");
+                const o = e.getNumber(parseInt(r[r.length - 1]), 0);
+                const u = i.value;
+                if (o > 0 && t.definedString(u)) {
+                    b(o, n, u, s);
+                } else {
+                    S(n, s);
                 }
             }
         }
     }
-    function l(t, n, r, o) {
+    function b(t, e, n, r) {
         if (!Object.prototype.hasOwnProperty.call(s, t.toString())) {
             s[t.toString()] = [];
         }
         s[t.toString()].push({
-            anchorTag: n,
-            newTarget: r,
-            originalTarget: n.getAttribute("target")
+            anchorTag: e,
+            newTarget: n,
+            originalTarget: e.getAttribute(o.Attribute.TARGET)
         });
-        if (e.removeAttributes) {
-            n.removeAttribute(o);
+        S(e, r);
+    }
+    function S(t, e) {
+        if (u.removeAttributes) {
+            t.removeAttribute(e);
         }
     }
-    function T() {
+    function A() {
         if (c) {
             if (a !== 0) {
                 clearTimeout(a);
             }
-            a = setTimeout(() => g(), e.responsiveDelay);
+            a = setTimeout(() => m(), u.responsiveDelay);
         }
     }
-    function g() {
-        A(_());
+    function m() {
+        _(p());
     }
-    function _() {
+    function p() {
         const t = {
             screenWidths: [],
             anchorTags: []
         };
-        const e = b();
+        const e = h();
         const n = e.length;
         for (let r = 0; r < n; r++) {
             const n = e[r];
@@ -229,7 +250,7 @@ var i;
                         const r = e[n];
                         if (t.anchorTags.indexOf(r.anchorTag) === -1) {
                             t.anchorTags.push(r.anchorTag);
-                            r.anchorTag.setAttribute("target", r.newTarget);
+                            r.anchorTag.setAttribute(o.Attribute.TARGET, r.newTarget);
                         }
                     }
                 }
@@ -237,86 +258,90 @@ var i;
         }
         return t;
     }
-    function A(n) {
-        const r = b();
-        const o = r.length;
-        for (let i = 0; i < o; i++) {
-            const o = r[i];
-            if (Object.prototype.hasOwnProperty.call(s, o)) {
-                if (n.screenWidths.indexOf(o) === -1) {
-                    const r = s[o];
-                    const i = r.length;
-                    for (let o = 0; o < i; o++) {
-                        const i = r[o];
-                        if (n.anchorTags.indexOf(i.anchorTag) === -1) {
-                            let n = i.originalTarget;
-                            if (!t.definedString(n)) {
-                                n = e.defaultTarget;
+    function _(e) {
+        const n = h();
+        const r = n.length;
+        for (let i = 0; i < r; i++) {
+            const r = n[i];
+            if (Object.prototype.hasOwnProperty.call(s, r)) {
+                if (e.screenWidths.indexOf(r) === -1) {
+                    const n = s[r];
+                    const i = n.length;
+                    for (let r = 0; r < i; r++) {
+                        const i = n[r];
+                        if (e.anchorTags.indexOf(i.anchorTag) === -1) {
+                            let e = i.originalTarget;
+                            if (!t.definedString(e)) {
+                                e = u.defaultTarget;
                             }
-                            i.anchorTag.setAttribute("target", n);
+                            if (t.definedString(e)) {
+                                i.anchorTag.setAttribute(o.Attribute.TARGET, e);
+                            } else {
+                                i.anchorTag.removeAttribute(o.Attribute.TARGET);
+                            }
                         }
                     }
                 }
             }
         }
     }
-    function b() {
+    function h() {
         return Object.keys(s).sort((t, e) => e.toLowerCase().localeCompare(t.toLowerCase()));
     }
-    const N = {
+    const T = {
         start: function() {
             if (!c) {
                 c = true;
-                g();
+                m();
             }
-            return N;
+            return T;
         },
         stop: function() {
             c = false;
-            return N;
+            return T;
         },
         fetch: function() {
-            if (!e.removeAttributes) {
+            if (!u.removeAttributes) {
                 s = {};
             }
-            u();
-            return N;
+            d();
+            return T;
         },
         refresh: function() {
             if (c) {
-                g();
+                m();
             }
-            return N;
+            return T;
         },
-        setConfiguration: r => {
-            if (t.definedObject(r)) {
-                const t = e;
-                let o = false;
-                for (const e in r) {
-                    if (Object.prototype.hasOwnProperty.call(r, e) && Object.prototype.hasOwnProperty.call(t, e) && t[e] !== r[e]) {
-                        t[e] = r[e];
-                        o = true;
+        setConfiguration: e => {
+            if (t.definedObject(e)) {
+                const t = u;
+                let r = false;
+                for (const n in e) {
+                    if (Object.prototype.hasOwnProperty.call(e, n) && Object.prototype.hasOwnProperty.call(t, n) && t[n] !== e[n]) {
+                        t[n] = e[n];
+                        r = true;
                     }
                 }
-                if (o) {
-                    e = n.Options.get(t);
-                    c = e.enabled;
-                    i.setup(e, () => u());
+                if (r) {
+                    u = n.Options.get(t);
+                    c = u.enabled;
+                    i.setup(u, () => d());
                 }
             }
-            return N;
+            return T;
         },
-        getVersion: () => "1.2.0"
+        getVersion: () => "1.3.0"
     };
     (() => {
-        e = n.Options.get();
-        c = e.enabled;
+        u = n.Options.get();
+        c = u.enabled;
         r.onContentLoaded(() => {
-            u();
-            i.setup(e, () => u());
+            d();
+            i.setup(u, () => d());
         });
         if (!t.defined(window.$rink)) {
-            window.$rink = N;
+            window.$rink = T;
         }
     })();
 })();//# sourceMappingURL=rink.js.map

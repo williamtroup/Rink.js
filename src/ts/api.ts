@@ -4,7 +4,7 @@
  * A JavaScript library for generating responsive HTML link targets.
  * 
  * @file        api.ts
- * @version     v1.2.0
+ * @version     v1.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2026
@@ -17,7 +17,7 @@ import { type ConfigurationOptions } from "./type";
 export type PublicApi = {
     /*
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     * Public API Functions:  Control
+     * Public API Functions:  Automation
      * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      */
 

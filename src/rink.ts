@@ -4,7 +4,7 @@
  * A JavaScript library for generating responsive HTML link targets.
  * 
  * @file        rink.ts
- * @version     v1.2.0
+ * @version     v1.3.0
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2026
@@ -24,6 +24,7 @@ import { DocumentElement } from "./ts/dom/document-element";
 import { Constant } from "./ts/constant";
 import { Char, ScreenSize, Value } from "./ts/data/enum";
 import { Observation } from "./ts/data/observation";
+import { Default } from "./ts/data/default";
 
 
 ( () : void => {
@@ -34,6 +35,7 @@ import { Observation } from "./ts/data/observation";
     let _screenWidthAnchors: Record<string, AnchorOptions[]> = {};
     let _screenWidthChangeTimer: number = 0;
     let _enabled: boolean = true;
+    let _windowEventListenerAdded: boolean = false;
     
 
     /*
@@ -56,7 +58,11 @@ import { Observation } from "./ts/data/observation";
         }
 
         if ( anchorTagsFound ) {
-            window.addEventListener( "resize", onWindowResize );
+            if ( !_windowEventListenerAdded ) {
+                window.addEventListener( Constant.Event.RESIZE, onWindowResize );
+
+                _windowEventListenerAdded = true;
+            }
 
             if ( _enabled ) {
                 updateAnchorTags();
@@ -67,34 +73,34 @@ import { Observation } from "./ts/data/observation";
     function processElement( anchorElement: HTMLAnchorElement ) : boolean {
         let added: boolean = false;
 
-        const attributeSmData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_SM )!;
-        const attributeMdData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_MD )!;
-        const attributeLgData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_LG )!;
-        const attributeXlData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_XL )!;
-        const attributeXxlData: string = anchorElement.getAttribute( Constant.RINK_JS_ATTRIBUTE_NAME_XXL )!;
+        const attributeSmData: string = anchorElement.getAttribute( Constant.CustomAttribute.RINK_JS_SM )!;
+        const attributeMdData: string = anchorElement.getAttribute( Constant.CustomAttribute.RINK_JS_MD )!;
+        const attributeLgData: string = anchorElement.getAttribute( Constant.CustomAttribute.RINK_JS_LG )!;
+        const attributeXlData: string = anchorElement.getAttribute( Constant.CustomAttribute.RINK_JS_XL )!;
+        const attributeXxlData: string = anchorElement.getAttribute( Constant.CustomAttribute.RINK_JS_XXL )!;
 
         if ( Is.definedString( attributeSmData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.sm, anchorElement, attributeSmData, Constant.RINK_JS_ATTRIBUTE_NAME_SM );
+            addAnchorToScreenWidthAnchors( ScreenSize.sm, anchorElement, attributeSmData, Constant.CustomAttribute.RINK_JS_SM );
             added = true;
         }
 
         if ( Is.definedString( attributeMdData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.md, anchorElement, attributeMdData, Constant.RINK_JS_ATTRIBUTE_NAME_MD );
+            addAnchorToScreenWidthAnchors( ScreenSize.md, anchorElement, attributeMdData, Constant.CustomAttribute.RINK_JS_MD );
             added = true;
         }
 
         if ( Is.definedString( attributeLgData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.lg, anchorElement, attributeLgData, Constant.RINK_JS_ATTRIBUTE_NAME_LG );
+            addAnchorToScreenWidthAnchors( ScreenSize.lg, anchorElement, attributeLgData, Constant.CustomAttribute.RINK_JS_LG );
             added = true;
         }
 
         if ( Is.definedString( attributeXlData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.xl, anchorElement, attributeXlData, Constant.RINK_JS_ATTRIBUTE_NAME_XL );
+            addAnchorToScreenWidthAnchors( ScreenSize.xl, anchorElement, attributeXlData, Constant.CustomAttribute.RINK_JS_XL );
             added = true;
         }
 
         if ( Is.definedString( attributeXxlData ) ) {
-            addAnchorToScreenWidthAnchors( ScreenSize.xxl, anchorElement, attributeXxlData, Constant.RINK_JS_ATTRIBUTE_NAME_XXL );
+            addAnchorToScreenWidthAnchors( ScreenSize.xxl, anchorElement, attributeXxlData, Constant.CustomAttribute.RINK_JS_XXL );
             added = true;
         }
 
@@ -109,14 +115,17 @@ import { Observation } from "./ts/data/observation";
 
         for ( let anchorTagAttributeIndex = 0; anchorTagAttributeIndex < anchorTagAttributesLength; anchorTagAttributeIndex++ ) {
             const anchorTagAttribute: Attr = anchorTagAttributes[ anchorTagAttributeIndex ];
+            const attributeName: string = anchorTagAttribute.name;
 
-            if ( anchorTagAttribute.name.startsWith( Constant.RINK_JS_ATTRIBUTE_NAME_CUSTOM ) ) {
-                const attributeNameParts: string[] = anchorTagAttribute.name.split( Char.dash );
-                const attributeWidth: string = attributeNameParts[ attributeNameParts.length - 1 ];
+            if ( attributeName.startsWith( Constant.CustomAttribute.RINK_JS_CUSTOM ) ) {
+                const attributeNameParts: string[] = attributeName.split( Char.dash );
+                const attributeWidth: number = Default.getNumber( parseInt( attributeNameParts[ attributeNameParts.length - 1 ] ), 0 );
                 const anchorTarget: string = anchorTagAttribute.value;
 
-                if ( Is.definedNumber( parseInt( attributeWidth ) ) && Is.definedString( anchorTarget ) ) {
-                    addAnchorToScreenWidthAnchors( parseInt( attributeWidth ), anchorElement, anchorTarget, anchorTagAttribute.name );
+                if ( attributeWidth > 0 && Is.definedString( anchorTarget ) ) {
+                    addAnchorToScreenWidthAnchors( attributeWidth, anchorElement, anchorTarget, attributeName );
+                } else {
+                    removeAttributesFromAnchorTag( anchorElement, attributeName );
                 }
             }
         }
@@ -130,9 +139,13 @@ import { Observation } from "./ts/data/observation";
         _screenWidthAnchors[ screenSize.toString() ].push( {
             anchorTag: anchorElement,
             newTarget: newTarget,
-            originalTarget: anchorElement.getAttribute( "target" ),
+            originalTarget: anchorElement.getAttribute( Constant.Attribute.TARGET ),
         } as AnchorOptions );
 
+        removeAttributesFromAnchorTag( anchorElement, attributeName );
+    }
+
+    function removeAttributesFromAnchorTag( anchorElement: HTMLAnchorElement, attributeName: string ) : void {
         if ( _configurationOptions.removeAttributes ) {
             anchorElement.removeAttribute( attributeName );
         }
@@ -186,7 +199,7 @@ import { Observation } from "./ts/data/observation";
 
                         if ( anchorTagsProcessed.anchorTags.indexOf( anchorTag.anchorTag ) === Value.notFound ) {
                             anchorTagsProcessed.anchorTags.push( anchorTag.anchorTag );
-                            anchorTag.anchorTag.setAttribute( "target", anchorTag.newTarget! );
+                            anchorTag.anchorTag.setAttribute( Constant.Attribute.TARGET, anchorTag.newTarget! );
                         }
                     }
                 }
@@ -218,7 +231,11 @@ import { Observation } from "./ts/data/observation";
                                 originalTarget = _configurationOptions.defaultTarget!;
                             }
 
-                            anchorTag.anchorTag.setAttribute( "target", originalTarget );
+                            if ( Is.definedString( originalTarget ) ) {
+                                anchorTag.anchorTag.setAttribute( Constant.Attribute.TARGET, originalTarget );
+                            } else {
+                                anchorTag.anchorTag.removeAttribute( Constant.Attribute.TARGET );
+                            }
                         }
                     }
                 }
@@ -242,7 +259,7 @@ import { Observation } from "./ts/data/observation";
     const _public: PublicApi = {
         /*
         * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        * Public API Functions:  Control
+        * Public API Functions:  Automation
         * ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         */
 
@@ -318,7 +335,7 @@ import { Observation } from "./ts/data/observation";
          */
 
         getVersion: () : string => {
-            return "1.2.0";
+            return "1.3.0";
         }
     };
 
