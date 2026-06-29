@@ -133,8 +133,8 @@ var i;
     let u = {};
     let s = {};
     let a = 0;
-    let c = true;
-    let f = false;
+    let f = true;
+    let c = false;
     function d() {
         let t = false;
         const e = document.getElementsByTagName("a");
@@ -146,11 +146,11 @@ var i;
             }
         }
         if (t) {
-            if (!f) {
+            if (!c) {
                 window.addEventListener(o.Event.RESIZE, A);
-                f = true;
+                c = true;
             }
-            if (c) {
+            if (f) {
                 m();
             }
         }
@@ -190,15 +190,17 @@ var i;
         const i = r.length;
         for (let u = 0; u < i; u++) {
             const i = r[u];
-            const s = i.name;
-            if (s.startsWith(o.CustomAttribute.RINK_JS_CUSTOM)) {
-                const r = s.split("-");
-                const o = e.getNumber(parseInt(r[r.length - 1]), 0);
-                const u = i.value;
-                if (o > 0 && t.definedString(u)) {
-                    b(o, n, u, s);
-                } else {
-                    S(n, s);
+            if (t.defined(i)) {
+                const r = i.name;
+                if (r.startsWith(o.CustomAttribute.RINK_JS_CUSTOM)) {
+                    const o = r.split("-");
+                    const u = e.getNumber(parseInt(o[o.length - 1]), 0);
+                    const s = i.value;
+                    if (u > 0 && t.definedString(s)) {
+                        b(u, n, s, r);
+                    } else {
+                        S(n, r);
+                    }
                 }
             }
         }
@@ -220,7 +222,7 @@ var i;
         }
     }
     function A() {
-        if (c) {
+        if (f) {
             if (a !== 0) {
                 clearTimeout(a);
             }
@@ -290,14 +292,14 @@ var i;
     }
     const T = {
         start: function() {
-            if (!c) {
-                c = true;
+            if (!f) {
+                f = true;
                 m();
             }
             return T;
         },
         stop: function() {
-            c = false;
+            f = false;
             return T;
         },
         fetch: function() {
@@ -308,7 +310,7 @@ var i;
             return T;
         },
         refresh: function() {
-            if (c) {
+            if (f) {
                 m();
             }
             return T;
@@ -325,17 +327,17 @@ var i;
                 }
                 if (r) {
                     u = n.Options.get(t);
-                    c = u.enabled;
+                    f = u.enabled;
                     i.setup(u, () => d());
                 }
             }
             return T;
         },
-        getVersion: () => "1.3.0"
+        getVersion: () => "1.3.1"
     };
     (() => {
         u = n.Options.get();
-        c = u.enabled;
+        f = u.enabled;
         r.onContentLoaded(() => {
             d();
             i.setup(u, () => d());

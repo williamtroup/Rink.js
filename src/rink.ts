@@ -4,7 +4,7 @@
  * A JavaScript library for generating responsive HTML link targets.
  * 
  * @file        rink.ts
- * @version     v1.3.0
+ * @version     v1.3.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2026
@@ -115,17 +115,20 @@ import { Default } from "./ts/data/default";
 
         for ( let anchorTagAttributeIndex = 0; anchorTagAttributeIndex < anchorTagAttributesLength; anchorTagAttributeIndex++ ) {
             const anchorTagAttribute: Attr = anchorTagAttributes[ anchorTagAttributeIndex ];
-            const attributeName: string = anchorTagAttribute.name;
 
-            if ( attributeName.startsWith( Constant.CustomAttribute.RINK_JS_CUSTOM ) ) {
-                const attributeNameParts: string[] = attributeName.split( Char.dash );
-                const attributeWidth: number = Default.getNumber( parseInt( attributeNameParts[ attributeNameParts.length - 1 ] ), 0 );
-                const anchorTarget: string = anchorTagAttribute.value;
+            if ( Is.defined( anchorTagAttribute ) ) {
+                const attributeName: string = anchorTagAttribute.name;
 
-                if ( attributeWidth > 0 && Is.definedString( anchorTarget ) ) {
-                    addAnchorToScreenWidthAnchors( attributeWidth, anchorElement, anchorTarget, attributeName );
-                } else {
-                    removeAttributesFromAnchorTag( anchorElement, attributeName );
+                if ( attributeName.startsWith( Constant.CustomAttribute.RINK_JS_CUSTOM ) ) {
+                    const attributeNameParts: string[] = attributeName.split( Char.dash );
+                    const attributeWidth: number = Default.getNumber( parseInt( attributeNameParts[ attributeNameParts.length - 1 ] ), 0 );
+                    const anchorTarget: string = anchorTagAttribute.value;
+
+                    if ( attributeWidth > 0 && Is.definedString( anchorTarget ) ) {
+                        addAnchorToScreenWidthAnchors( attributeWidth, anchorElement, anchorTarget, attributeName );
+                    } else {
+                        removeAttributesFromAnchorTag( anchorElement, attributeName );
+                    }
                 }
             }
         }
@@ -335,7 +338,7 @@ import { Default } from "./ts/data/default";
          */
 
         getVersion: () : string => {
-            return "1.3.0";
+            return "1.3.1";
         }
     };
 

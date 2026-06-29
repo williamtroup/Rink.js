@@ -4,7 +4,7 @@
  * A JavaScript library for generating responsive HTML link targets.
  * 
  * @file        default.ts
- * @version     v1.3.0
+ * @version     v1.3.1
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2026
