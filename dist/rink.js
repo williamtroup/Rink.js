@@ -182,28 +182,34 @@ var i;
             b(1400, e, a, o.CustomAttribute.RINK_JS_XXL);
             n = true;
         }
-        g(e);
+        const f = g(e);
+        if (f && !n) {
+            n = true;
+        }
         return n;
     }
     function g(n) {
-        const r = n.attributes;
-        const i = r.length;
-        for (let u = 0; u < i; u++) {
-            const i = r[u];
-            if (t.defined(i)) {
-                const r = i.name;
-                if (r.startsWith(o.CustomAttribute.RINK_JS_CUSTOM)) {
-                    const o = r.split("-");
-                    const u = e.getNumber(parseInt(o[o.length - 1]), 0);
-                    const s = i.value;
-                    if (u > 0 && t.definedString(s)) {
-                        b(u, n, s, r);
+        let r = false;
+        const i = n.attributes;
+        const u = i.length;
+        for (let s = 0; s < u; s++) {
+            const u = i[s];
+            if (t.defined(u)) {
+                const i = u.name;
+                if (i.startsWith(o.CustomAttribute.RINK_JS_CUSTOM)) {
+                    const o = i.split("-");
+                    const s = e.getNumber(parseInt(o[o.length - 1]), 0);
+                    const a = u.value;
+                    if (s > 0 && t.definedString(a)) {
+                        b(s, n, a, i);
+                        r = true;
                     } else {
-                        S(n, r);
+                        S(n, i);
                     }
                 }
             }
         }
+        return r;
     }
     function b(t, e, n, r) {
         if (!Object.prototype.hasOwnProperty.call(s, t.toString())) {

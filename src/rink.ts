@@ -104,12 +104,17 @@ import { Default } from "./ts/data/default";
             added = true;
         }
 
-        findCustomSizeAttributes( anchorElement );
+        const hasCustomSizeAttributesBeenFound: boolean = findCustomSizeAttributes( anchorElement );
+
+        if ( hasCustomSizeAttributesBeenFound && !added ) {
+            added = true;
+        }
 
         return added;
     }
 
-    function findCustomSizeAttributes( anchorElement: HTMLAnchorElement ) : void {
+    function findCustomSizeAttributes( anchorElement: HTMLAnchorElement ) : boolean {
+        let added: boolean = false;
         const anchorTagAttributes: NamedNodeMap = anchorElement.attributes;
         const anchorTagAttributesLength: number = anchorTagAttributes.length;
 
@@ -126,12 +131,16 @@ import { Default } from "./ts/data/default";
 
                     if ( attributeWidth > 0 && Is.definedString( anchorTarget ) ) {
                         addAnchorToScreenWidthAnchors( attributeWidth, anchorElement, anchorTarget, attributeName );
+                        added = true;
+
                     } else {
                         removeAttributesFromAnchorTag( anchorElement, attributeName );
                     }
                 }
             }
         }
+
+        return added;
     }
 
     function addAnchorToScreenWidthAnchors( screenSize: number, anchorElement: HTMLAnchorElement, newTarget: string, attributeName: string ) : void {
