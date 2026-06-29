@@ -4,7 +4,7 @@
  * A JavaScript library for generating responsive HTML link targets.
  * 
  * @file        rink.ts
- * @version     v1.3.1
+ * @version     v1.3.2
  * @author      Bunoon
  * @license     MIT License
  * @copyright   Bunoon 2026
@@ -347,7 +347,7 @@ import { Default } from "./ts/data/default";
          */
 
         getVersion: () : string => {
-            return "1.3.1";
+            return "1.3.2";
         }
     };
 
