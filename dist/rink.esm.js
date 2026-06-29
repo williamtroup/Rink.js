@@ -188,15 +188,17 @@ var i;
         const i = r.length;
         for (let u = 0; u < i; u++) {
             const i = r[u];
-            const s = i.name;
-            if (s.startsWith(o.CustomAttribute.RINK_JS_CUSTOM)) {
-                const r = s.split("-");
-                const o = e.getNumber(parseInt(r[r.length - 1]), 0);
-                const u = i.value;
-                if (o > 0 && t.definedString(u)) {
-                    b(o, n, u, s);
-                } else {
-                    S(n, s);
+            if (t.defined(i)) {
+                const r = i.name;
+                if (r.startsWith(o.CustomAttribute.RINK_JS_CUSTOM)) {
+                    const o = r.split("-");
+                    const u = e.getNumber(parseInt(o[o.length - 1]), 0);
+                    const s = i.value;
+                    if (u > 0 && t.definedString(s)) {
+                        b(u, n, s, r);
+                    } else {
+                        S(n, r);
+                    }
                 }
             }
         }
